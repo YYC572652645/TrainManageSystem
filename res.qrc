@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>image/trainSelect.jpg</file>
+        <file>image/trainInsert.jpg</file>
+    </qresource>
+</RCC>
