@@ -7,5 +7,6 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
+    a.setFont(QFont("ZYSong18"));
     return a.exec();
 }

@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/image">
         <file>image/trainSelect.jpg</file>
-        <file>image/trainInsert.jpg</file>
+        <file>image/user.png</file>
+        <file>image/indexedDB.png</file>
     </qresource>
+    <qresource prefix="/qss"/>
 </RCC>
