@@ -1,5 +1,8 @@
 ﻿#include "database.h"
-#include"qreadini.h"
+#include "qreadini.h"
+#include <QDebug>
+
+DataBase *DataBase::dataBase = NULL;
 
 /***************************构造函数***********************/
 DataBase::DataBase()
@@ -36,16 +39,28 @@ bool DataBase::dataCnn()
     return db.open();
 }
 
-/***************************插入数据***********************/
-bool DataBase::insertData()
+/***************************插入列车数据***********************/
+bool DataBase::insertTrainData(TrainInfo &trainInfo)
 {
-    if(!db.isOpen())
-    {
-        db.open();
-    }
+    if(!db.isOpen()) db.open();
+
     QSqlQuery query;
-    QString Str = QString("insert into table values('','');");
-    bool success = query.exec(Str);  //执行sql语句
+
+    QString str = QString("insert into traininfo values('");
+
+    str += trainInfo.trainNumber       + "','" + trainInfo.trainType      + "','";
+
+    str += trainInfo.startStation      + "','" + trainInfo.endStation     + "','";
+
+    str += trainInfo.startTime         + "','" + trainInfo.endTime        + "','";
+
+    str += trainInfo.sleeperSeatNumber + "','" + trainInfo.hardSeadNumber + "','";
+
+    str += trainInfo.seatMoney + "');";
+
+    qDebug()<<str;
+
+    bool success = query.exec(str);  //执行sql语句
 
     db.close();
 

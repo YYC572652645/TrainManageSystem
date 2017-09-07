@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "traindata/database.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -204,5 +205,17 @@ void MainWindow::initControl()
 
 void MainWindow::insertData()
 {
+    TrainInfo trainInfo;
 
+     trainInfo.trainNumber       = lineEditTrainNumber->text();       //车次
+     trainInfo.trainType         = comboBoxTrainType->currentText();  //分类
+     trainInfo.startStation      = lineEditStartStation->text();      //起始站
+     trainInfo.endStation        = lineEditEndStation->text();        //终点站
+     trainInfo.startTime         = dateEditStartTime->text();         //发车时间
+     trainInfo.endTime           = dateEditEndTime->text();           //到站时间
+     trainInfo.hardSeadNumber    = lineEditHardSeat->text();          //硬座
+     trainInfo.sleeperSeatNumber = lineEditSleepSeat->text();         //卧铺
+     trainInfo.seatMoney         = lineEditSeatMoney->text();         //票价
+
+    DATABASE->insertTrainData(trainInfo);
 }

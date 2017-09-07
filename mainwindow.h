@@ -19,6 +19,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void insertData(); //插入数据槽函数
+
 private:
     Ui::MainWindow *ui;
 
