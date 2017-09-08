@@ -1,0 +1,14 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\database.o
+./release\qreadini.o
+./release\traininfoselect.o
+./release\userinfoinsert.o
+./release\userinfoselect.o
+./release\qrc_res.o
+./release\moc_mainwindow.o
+./release\moc_traininfoselect.o
+./release\moc_userinfoinsert.o
+./release\moc_userinfoselect.o
+);

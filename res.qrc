@@ -3,6 +3,12 @@
         <file>image/trainSelect.jpg</file>
         <file>image/user.png</file>
         <file>image/indexedDB.png</file>
+        <file>image/refresh.gif</file>
+        <file>image/refresh.png</file>
+        <file>image/critical.png</file>
+        <file>image/serch.png</file>
     </qresource>
-    <qresource prefix="/qss"/>
+    <qresource prefix="/qss">
+        <file>qss/style.qss</file>
+    </qresource>
 </RCC>

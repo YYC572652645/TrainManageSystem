@@ -1,6 +1,7 @@
 ﻿#include "database.h"
 #include "qreadini.h"
 #include <QDebug>
+#include "globaldef.h"
 
 DataBase *DataBase::dataBase = NULL;
 
@@ -11,6 +12,11 @@ DataBase::DataBase()
     {
         qDebug()<<"连接失败";
     }
+}
+
+QList<TrainInfo> DataBase::getTrainData() const
+{
+    return trainData;
 }
 
 /***************************连接数据库*********************/
@@ -68,27 +74,38 @@ bool DataBase::insertTrainData(TrainInfo &trainInfo)
 }
 
 /***************************查询数据***********************/
-bool DataBase::selectData()
+bool DataBase::selectTrainData()
 {
+    trainData.clear();
     int Count = 0;
     if(!db.isOpen())
     {
         db.open();
     }
     QSqlQuery query;
-    QString Str = QString("select * from table;");
+    QString Str = QString("select * from traininfo;");
     bool success = query.exec(Str);  //执行sql语句
-    if(!success)
+    if(!success)  return GLOBALDEF::ERROR;
+
+
+    while(query.next())        //挨个遍历数据
     {
-        return false;
+        TrainInfo trainInfo;
+
+        trainInfo.trainNumber       = query.value(0).toString();
+        trainInfo.trainType         = query.value(1).toString();
+        trainInfo.startStation      = query.value(2).toString();
+        trainInfo.endStation        = query.value(3).toString();
+        trainInfo.startTime         = query.value(4).toString();
+        trainInfo.endTime           = query.value(5).toString();
+        trainInfo.sleeperSeatNumber = query.value(6).toString();
+        trainInfo.hardSeadNumber    = query.value(7).toString();
+        trainInfo.seatMoney         = query.value(8).toString();
+
+        trainData.append(trainInfo);
+        Count ++;
     }
-    else
-    {
-        while(query.next())        //挨个遍历数据
-        {
-            Count ++;
-        }
-    }
+
     db.close();
 
     return Count > 0 ? true : false;

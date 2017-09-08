@@ -16,8 +16,6 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
@@ -35,21 +33,19 @@ public:
     QAction *actionUserInfoSelect;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
-    QSplitter *splitter;
     QTableWidget *tableWidgetInsert;
     QLineEdit *lineEdit;
-    QMenuBar *menuBar;
-    QToolBar *mainToolBar;
     QStatusBar *statusBar;
+    QToolBar *toolBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->resize(833, 630);
-        MainWindow->setMinimumSize(QSize(700, 400));
         actionTrainInfoSelect = new QAction(MainWindow);
         actionTrainInfoSelect->setObjectName(QStringLiteral("actionTrainInfoSelect"));
+        actionTrainInfoSelect->setCheckable(false);
         QIcon icon;
         icon.addFile(QStringLiteral(":/image/image/trainSelect.jpg"), QSize(), QIcon::Normal, QIcon::Off);
         actionTrainInfoSelect->setIcon(icon);
@@ -70,10 +66,7 @@ public:
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        splitter = new QSplitter(centralWidget);
-        splitter->setObjectName(QStringLiteral("splitter"));
-        splitter->setOrientation(Qt::Vertical);
-        tableWidgetInsert = new QTableWidget(splitter);
+        tableWidgetInsert = new QTableWidget(centralWidget);
         if (tableWidgetInsert->columnCount() < 6)
             tableWidgetInsert->setColumnCount(6);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
@@ -99,9 +92,8 @@ public:
         QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
         tableWidgetInsert->setVerticalHeaderItem(3, __qtablewidgetitem9);
         tableWidgetInsert->setObjectName(QStringLiteral("tableWidgetInsert"));
-        splitter->addWidget(tableWidgetInsert);
 
-        verticalLayout->addWidget(splitter);
+        verticalLayout->addWidget(tableWidgetInsert);
 
         lineEdit = new QLineEdit(centralWidget);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
@@ -110,25 +102,19 @@ public:
         verticalLayout->addWidget(lineEdit);
 
         MainWindow->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(MainWindow);
-        menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 833, 22));
-        MainWindow->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        mainToolBar->setMinimumSize(QSize(0, 60));
-        mainToolBar->setMaximumSize(QSize(16777215, 50));
-        mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
+        toolBar = new QToolBar(MainWindow);
+        toolBar->setObjectName(QStringLiteral("toolBar"));
+        toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+        MainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
         QWidget::setTabOrder(lineEdit, tableWidgetInsert);
 
-        mainToolBar->addAction(actionTrainInfoInsert);
-        mainToolBar->addAction(actionTrainInfoSelect);
-        mainToolBar->addAction(actionUserInfoInsert);
-        mainToolBar->addAction(actionUserInfoSelect);
+        toolBar->addAction(actionTrainInfoInsert);
+        toolBar->addAction(actionTrainInfoSelect);
+        toolBar->addAction(actionUserInfoInsert);
+        toolBar->addAction(actionUserInfoSelect);
 
         retranslateUi(MainWindow);
 
@@ -174,6 +160,7 @@ public:
         ___qtablewidgetitem8->setText(QApplication::translate("MainWindow", "\346\226\260\345\273\272\350\241\214", 0));
         QTableWidgetItem *___qtablewidgetitem9 = tableWidgetInsert->verticalHeaderItem(3);
         ___qtablewidgetitem9->setText(QApplication::translate("MainWindow", "\346\226\260\345\273\272\350\241\214", 0));
+        toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", 0));
     } // retranslateUi
 
 };

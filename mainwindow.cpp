@@ -1,6 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "traindata/database.h"
+#include "traininfoselect/traininfoselect.h"
+#include "userinfoinsert/userinfoinsert.h"
+#include "userinfoselect/userinfoselect.h"
+#include "globaldef.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle(tr("列车票务管理系统"));
 
     this->initControl();
+    this->initData();
 }
 
 MainWindow::~MainWindow()
@@ -19,10 +25,9 @@ MainWindow::~MainWindow()
 }
 
 
-
 void MainWindow::initControl()
 {
-    /*************************车次***********************/
+    /*************************          车次           ***********************/
     lineEditTrainNumber = new QLineEdit(this);
     lineEditTrainNumber->setMinimumHeight(25);
     QWidget *widgetTrainNumber = new QWidget(this);
@@ -32,7 +37,7 @@ void MainWindow::initControl()
     widgetTrainNumber->setLayout(hboxLayoutTrainNumber);
 
 
-    /************************* 分类 ***********************/
+    /*************************           分类           ***********************/
     comboBoxTrainType = new QComboBox(this);
     QWidget * widgetTrainType=new QWidget(this);
     QHBoxLayout * hboxLayoutTrainType=new QHBoxLayout(this);
@@ -47,7 +52,7 @@ void MainWindow::initControl()
     widgetTrainType->setLayout(hboxLayoutTrainType);
 
 
-    /*************************起始站***********************/
+    /*************************             起始站          ***********************/
     lineEditStartStation = new QLineEdit(this);
     lineEditStartStation->setMinimumHeight(25);
     QWidget *widgetStartStation = new QWidget(this);
@@ -57,7 +62,7 @@ void MainWindow::initControl()
     widgetStartStation->setLayout(hboxLayoutStartStation);
 
 
-    /*************************终点站***********************/
+    /*************************              终点站         ***********************/
     lineEditEndStation = new QLineEdit(this);
     lineEditEndStation->setMinimumHeight(25);
     QWidget *widgetEndStation = new QWidget(this);
@@ -66,7 +71,7 @@ void MainWindow::initControl()
     hboxLayoutEndStation->setAlignment(widgetEndStation,Qt::AlignCenter);
     widgetEndStation->setLayout(hboxLayoutEndStation);
 
-    /*************************发车时间***********************/
+    /*************************               发车时间     ***********************/
     dateEditStartTime = new QDateEdit(this);
     dateEditStartTime->setMinimumHeight(25);
     QWidget *widgetStartTime = new QWidget(this);
@@ -116,13 +121,18 @@ void MainWindow::initControl()
 
     /*************************录入数据信息***********************/
     insertButton=new QPushButton(this);
+    QWidget *widgetButton = new QWidget(this);
+    QHBoxLayout *hboxLayoutButton = new QHBoxLayout(this);
+    hboxLayoutButton->addWidget(insertButton);
+    hboxLayoutButton->setAlignment(widgetButton,Qt::AlignCenter);
+    widgetButton->setLayout(hboxLayoutButton);
     insertButton->setText("信息录入");
 
     QFont font("宋体", 14, QFont::Bold, true);
     insertButton->setFont(font);
     insertButton->setIcon(QIcon(":/image/image/indexedDB.png"));
-    insertButton->setIconSize(QSize(30, 30));
-    insertButton->setStyleSheet("background-color:transparent");
+    insertButton->setIconSize(QSize(25, 25));
+    insertButton->setMinimumHeight(50);
 
     //添加控件
     ui->tableWidgetInsert->setCellWidget(0, 1, widgetTrainNumber);
@@ -134,7 +144,7 @@ void MainWindow::initControl()
     ui->tableWidgetInsert->setCellWidget(2, 1, widgetHardSeat);
     ui->tableWidgetInsert->setCellWidget(2, 3, widgetSleepSeat);
     ui->tableWidgetInsert->setCellWidget(2, 5, widgetSeatMoney);
-    ui->tableWidgetInsert->setCellWidget(3, 5, insertButton);
+    ui->tableWidgetInsert->setCellWidget(3, 5, widgetButton);
 
     //把表头上面去掉
     ui->tableWidgetInsert->horizontalHeader()->setVisible(false);
@@ -203,6 +213,13 @@ void MainWindow::initControl()
     connect(insertButton,SIGNAL(clicked()), this, SLOT(insertData()));
 }
 
+void MainWindow::initData()
+{
+    trainInfoSelect = new TrainInfoSelect();
+    userInfoInsert = new UserInfoInsert();
+    userInfoSelect = new UserInfoSelect();
+}
+
 void MainWindow::insertData()
 {
     TrainInfo trainInfo;
@@ -218,4 +235,32 @@ void MainWindow::insertData()
      trainInfo.seatMoney         = lineEditSeatMoney->text();         //票价
 
     DATABASE->insertTrainData(trainInfo);
+}
+
+void MainWindow::on_actionTrainInfoSelect_triggered()
+{
+    SETCENTRALWIDGET(trainInfoSelect);
+
+    trainInfoSelect->show();
+}
+
+void MainWindow::on_actionTrainInfoInsert_triggered()
+{
+    SETCENTRALWIDGET(ui->centralWidget);
+
+    ui->centralWidget->show();
+}
+
+void MainWindow::on_actionUserInfoInsert_triggered()
+{
+    SETCENTRALWIDGET(userInfoInsert);
+
+    userInfoInsert->show();
+}
+
+void MainWindow::on_actionUserInfoSelect_triggered()
+{
+    SETCENTRALWIDGET(userInfoSelect);
+
+    userInfoSelect->show();
 }

@@ -15,15 +15,27 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     traindata/database.cpp \
-    traindata/qreadini.cpp
+    traindata/qreadini.cpp \
+    traininfoselect/traininfoselect.cpp \
+    userinfoinsert/userinfoinsert.cpp \
+    userinfoselect/userinfoselect.cpp
 
 HEADERS  += mainwindow.h \
     traindata/database.h \
-    traindata/qreadini.h
+    traindata/qreadini.h \
+    globaldef.h \
+    traininfoselect/traininfoselect.h \
+    userinfoinsert/userinfoinsert.h \
+    userinfoselect/userinfoselect.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    traininfoselect/traininfoselect.ui \
+    userinfoinsert/userinfoinsert.ui \
+    userinfoselect/userinfoselect.ui
 
 RESOURCES += \
     res.qrc
 
 RC_FILE += myapp.rc
+
+DISTFILES +=

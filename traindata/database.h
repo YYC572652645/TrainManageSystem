@@ -61,7 +61,7 @@ public:
 
 
     /************查询数据*************/
-    bool selectData();
+    bool selectTrainData();
 
 
     /************更改数据*************/
@@ -72,10 +72,14 @@ public:
     bool deleteData();
 
 
+    QList<TrainInfo> getTrainData() const;
+
 private:
-    DataBase();                //构造函数
-    static DataBase *dataBase; //静态对象
-    QSqlDatabase db;           //定义数据库对象
+    DataBase();                     //构造函数
+    static DataBase *dataBase;      //静态对象
+    QSqlDatabase db;                //定义数据库对象
+
+    QList<TrainInfo> trainData;     //用于存储查询出来的数据
 };
 
 #endif // DATABASE_H

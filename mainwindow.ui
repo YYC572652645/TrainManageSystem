@@ -10,74 +10,63 @@
     <height>630</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>700</width>
-    <height>400</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QSplitter" name="splitter">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <widget class="QTableWidget" name="tableWidgetInsert">
-       <row>
-        <property name="text">
-         <string>新建行</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>新建行</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>新建行</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>新建行</string>
-        </property>
-       </row>
-       <column>
-        <property name="text">
-         <string>新建列</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>新建列</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>新建列</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>新建列</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>新建列</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>新建列</string>
-        </property>
-       </column>
-      </widget>
+     <widget class="QTableWidget" name="tableWidgetInsert">
+      <row>
+       <property name="text">
+        <string>新建行</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>新建行</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>新建行</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>新建行</string>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>新建列</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>新建列</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>新建列</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>新建列</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>新建列</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>新建列</string>
+       </property>
+      </column>
      </widget>
     </item>
     <item>
@@ -92,28 +81,10 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>833</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>60</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>16777215</width>
-     <height>50</height>
-    </size>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -129,8 +100,10 @@
    <addaction name="actionUserInfoInsert"/>
    <addaction name="actionUserInfoSelect"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionTrainInfoSelect">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="res.qrc">
      <normaloff>:/image/image/trainSelect.jpg</normaloff>:/image/image/trainSelect.jpg</iconset>
