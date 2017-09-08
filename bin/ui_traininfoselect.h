@@ -18,6 +18,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -34,6 +35,7 @@ public:
     QPushButton *pushButtonFind;
     QLabel *labelMovie;
     QPushButton *pushButtonRefresh;
+    QSpacerItem *horizontalSpacer;
     QTableWidget *tableWidget;
 
     void setupUi(QWidget *traininfoselect)
@@ -82,6 +84,10 @@ public:
 "}"));
 
         horizontalLayout->addWidget(pushButtonRefresh);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
 
 
         verticalLayout->addLayout(horizontalLayout);

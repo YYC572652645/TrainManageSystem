@@ -85,7 +85,7 @@ void TrainInfoSelect::createActions()
     del     = new QAction(QIcon(GLOBALDEF::DELETEICON),  "删除", this);
 
     //connect(update,  SIGNAL(triggered(bool)), this,SLOT(on_actionPrintLabel_triggered()));
-    //connect(refresh, SIGNAL(triggered(bool)), this,SLOT(on_pushButtonRefresh_clicked()));
+    connect(refresh, SIGNAL(triggered(bool)), this,SLOT(on_pushButtonRefresh_clicked()));
     //connect(del,     SIGNAL(triggered(bool)), this,SLOT(on_actionDeleteInfo_triggered()));
 }
 
