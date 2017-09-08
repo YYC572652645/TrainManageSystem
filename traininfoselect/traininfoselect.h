@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QMovie>
 #include <QMenu>
+#include <QContextMenuEvent>
 
 namespace Ui {
 class traininfoselect;
@@ -26,6 +27,7 @@ private slots:
 
 private:
     Ui::traininfoselect *ui;
+    void contextMenuEvent(QContextMenuEvent *event);
     QTimer *timer;
     QMovie * movie;
     QMenu *menu;                  //菜单

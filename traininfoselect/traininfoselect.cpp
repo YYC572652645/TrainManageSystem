@@ -14,6 +14,8 @@ TrainInfoSelect::TrainInfoSelect(QWidget *parent) :
     movie = new QMovie(":/image/image/refresh.gif");
 
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMovie()));
+
+    this->initControl();
 }
 
 TrainInfoSelect::~TrainInfoSelect()
@@ -93,7 +95,6 @@ void TrainInfoSelect::initControl()
     //设置根据内容调整列宽
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
 
     //创建菜单
     this->createActions();
@@ -107,7 +108,22 @@ void TrainInfoSelect::createActions()
     refresh = new QAction(QIcon(GLOBALDEF::REFRESHICON), "刷新", this);
     del     = new QAction(QIcon(GLOBALDEF::DELETEICON),  "删除", this);
 
-    connect(update,   SIGNAL(triggered(bool)), this,SLOT(on_actionPrintLabel_triggered()));
-    connect(refresh, SIGNAL(triggered(bool)), this,SLOT(on_pushButtonRefresh_clicked()));
-    connect(del,     SIGNAL(triggered(bool)), this,SLOT(on_actionDeleteInfo_triggered()));
+    //connect(update,   SIGNAL(triggered(bool)), this,SLOT(on_actionPrintLabel_triggered()));
+    //connect(refresh, SIGNAL(triggered(bool)), this,SLOT(on_pushButtonRefresh_clicked()));
+    //connect(del,     SIGNAL(triggered(bool)), this,SLOT(on_actionDeleteInfo_triggered()));
 }
+
+/**************************显示菜单***************************/
+void TrainInfoSelect::contextMenuEvent(QContextMenuEvent *event)
+{
+    menu->clear();
+
+    menu->addAction(update);
+    menu->addAction(refresh);
+    menu->addAction(del);
+
+    menu->exec(QCursor::pos());
+
+    event->accept();
+}
+
