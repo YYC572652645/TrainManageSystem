@@ -61,7 +61,7 @@ public:
 
 
     /************查询数据*************/
-    bool selectTrainData();
+    int selectTrainData();
 
 
     /************更改数据*************/

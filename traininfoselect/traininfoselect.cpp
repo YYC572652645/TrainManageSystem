@@ -3,6 +3,7 @@
 #include "traindata/database.h"
 #include "globaldef.h"
 #include <QVBoxLayout>
+#include <QDebug>
 
 TrainInfoSelect::TrainInfoSelect(QWidget *parent) :
     QWidget(parent),
@@ -16,6 +17,8 @@ TrainInfoSelect::TrainInfoSelect(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMovie()));
 
     this->initControl();
+
+    dataSelect();
 }
 
 TrainInfoSelect::~TrainInfoSelect()
@@ -35,34 +38,7 @@ void TrainInfoSelect::on_pushButtonRefresh_clicked()
     ui->labelMovie->setMovie(movie);
     movie->start();
 
-    int dataCount = dataCount = DATABASE->selectTrainData();  //查询出的数据条数
-
-    if(dataCount == GLOBALDEF::ERROR) return;
-
-    ui->tableWidget->setRowCount(dataCount);    //设置表格行数
-
-    for(int i = 0; i < dataCount; i ++)
-    {
-        ui->tableWidget->setItem(i, 0, DATA(DATABASE->getTrainData().at(i).trainNumber));
-        ui->tableWidget->setItem(i, 1, DATA(DATABASE->getTrainData().at(i).trainType));
-        ui->tableWidget->setItem(i, 2, DATA(DATABASE->getTrainData().at(i).startStation));
-        ui->tableWidget->setItem(i, 3, DATA(DATABASE->getTrainData().at(i).endStation));
-        ui->tableWidget->setItem(i, 4, DATA(DATABASE->getTrainData().at(i).startTime));
-        ui->tableWidget->setItem(i, 5, DATA(DATABASE->getTrainData().at(i).endTime));
-        ui->tableWidget->setItem(i, 6, DATA(DATABASE->getTrainData().at(i).sleeperSeatNumber));
-        ui->tableWidget->setItem(i, 7, DATA(DATABASE->getTrainData().at(i).hardSeadNumber));
-        ui->tableWidget->setItem(i, 8, DATA(DATABASE->getTrainData().at(i).seatMoney));
-    }
-
-    //滑动至最后一行
-    ui->tableWidget->scrollToBottom();
-
-    //设置第一行为当前选中行
-    if(dataCount != 0)
-    {
-        ui->tableWidget->selectRow(dataCount - 1);
-        ui->tableWidget->setFocus();
-    }
+    dataSelect();
 
     timer->start(3500);
 }
@@ -104,13 +80,45 @@ void TrainInfoSelect::initControl()
 void TrainInfoSelect::createActions()
 {
     menu    = new QMenu(this);
-    update   = new QAction(QIcon(GLOBALDEF::PRINTICON),   "打印", this);
+    update   = new QAction(QIcon(GLOBALDEF::PRINTICON),  "更新", this);
     refresh = new QAction(QIcon(GLOBALDEF::REFRESHICON), "刷新", this);
     del     = new QAction(QIcon(GLOBALDEF::DELETEICON),  "删除", this);
 
-    //connect(update,   SIGNAL(triggered(bool)), this,SLOT(on_actionPrintLabel_triggered()));
+    //connect(update,  SIGNAL(triggered(bool)), this,SLOT(on_actionPrintLabel_triggered()));
     //connect(refresh, SIGNAL(triggered(bool)), this,SLOT(on_pushButtonRefresh_clicked()));
     //connect(del,     SIGNAL(triggered(bool)), this,SLOT(on_actionDeleteInfo_triggered()));
+}
+
+void TrainInfoSelect::dataSelect()
+{
+    int dataCount = DATABASE->selectTrainData();  //查询出的数据条数
+
+    if(dataCount == GLOBALDEF::ERROR) return;
+
+    ui->tableWidget->setRowCount(dataCount);    //设置表格行数
+
+    for(int i = 0; i < DATABASE->getTrainData().size(); i ++)
+    {
+        ui->tableWidget->setItem(i, 0, DATA(DATABASE->getTrainData().at(i).trainNumber));
+        ui->tableWidget->setItem(i, 1, DATA(DATABASE->getTrainData().at(i).trainType));
+        ui->tableWidget->setItem(i, 2, DATA(DATABASE->getTrainData().at(i).startStation));
+        ui->tableWidget->setItem(i, 3, DATA(DATABASE->getTrainData().at(i).endStation));
+        ui->tableWidget->setItem(i, 4, DATA(DATABASE->getTrainData().at(i).startTime));
+        ui->tableWidget->setItem(i, 5, DATA(DATABASE->getTrainData().at(i).endTime));
+        ui->tableWidget->setItem(i, 6, DATA(DATABASE->getTrainData().at(i).sleeperSeatNumber));
+        ui->tableWidget->setItem(i, 7, DATA(DATABASE->getTrainData().at(i).hardSeadNumber));
+        ui->tableWidget->setItem(i, 8, DATA(DATABASE->getTrainData().at(i).seatMoney));
+    }
+
+    //滑动至最后一行
+    ui->tableWidget->scrollToBottom();
+
+    //设置第一行为当前选中行
+    if(dataCount != 0)
+    {
+        ui->tableWidget->selectRow(dataCount - 1);
+        ui->tableWidget->setFocus();
+    }
 }
 
 /**************************显示菜单***************************/

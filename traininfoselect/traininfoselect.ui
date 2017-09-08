@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>736</width>
     <height>300</height>
    </rect>
   </property>
@@ -81,47 +81,47 @@ background-color:transparent;
       <widget class="QTableWidget" name="tableWidget">
        <column>
         <property name="text">
-         <string>新建列</string>
+         <string>车次</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>新建列</string>
+         <string>分类</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>新建列</string>
+         <string>起点站</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>新建列</string>
+         <string>终点站</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>新建列</string>
+         <string>发车时间</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>新建列</string>
+         <string>到站时间</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>新建列</string>
+         <string>硬座座位</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>新建列</string>
+         <string>卧铺座位</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>新建列</string>
+         <string>票价</string>
         </property>
        </column>
       </widget>

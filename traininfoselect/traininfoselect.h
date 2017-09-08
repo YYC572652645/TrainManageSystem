@@ -20,6 +20,7 @@ public:
     ~TrainInfoSelect();
     void initControl();
     void createActions();
+    void dataSelect();
 
 private slots:
     void updateMovie();
@@ -31,7 +32,7 @@ private:
     QTimer *timer;
     QMovie * movie;
     QMenu *menu;                  //菜单
-    QAction *update;               //更改
+    QAction *update;              //更改
     QAction *del;                 //删除
     QAction *refresh;             //刷新
 };

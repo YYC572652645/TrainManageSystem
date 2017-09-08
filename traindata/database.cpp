@@ -74,7 +74,7 @@ bool DataBase::insertTrainData(TrainInfo &trainInfo)
 }
 
 /***************************查询数据***********************/
-bool DataBase::selectTrainData()
+int DataBase::selectTrainData()
 {
     trainData.clear();
     int Count = 0;
@@ -84,7 +84,9 @@ bool DataBase::selectTrainData()
     }
     QSqlQuery query;
     QString Str = QString("select * from traininfo;");
+
     bool success = query.exec(Str);  //执行sql语句
+
     if(!success)  return GLOBALDEF::ERROR;
 
 
@@ -103,12 +105,13 @@ bool DataBase::selectTrainData()
         trainInfo.seatMoney         = query.value(8).toString();
 
         trainData.append(trainInfo);
+
         Count ++;
     }
 
     db.close();
 
-    return Count > 0 ? true : false;
+    return Count;
 }
 
 /***************************更改数据***********************/
