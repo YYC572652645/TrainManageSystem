@@ -38,21 +38,43 @@
 namespace GLOBALDEF
 {
 const static int     ERROR        = -1;                           //数据库查询失败
-const static QString UNUSED       = "1";                          //不用使用密码登录
-const static QString PRINTFLAGE   = "1";                          //已经打印
-const static QString SUCCESSIMAGE = ":/image/image/ok.png";       //成功图片
-const static QString FAILIMAGE    = ":/image/image/fail.png";     //失败图片
-const static QString PRINTICON    = ":/image/image/print.jpg";    //打印图片
+const static QString UPDATEICON   = ":/image/image/update.jpg";   //刷新图片
 const static QString REFRESHICON  = ":/image/image/refresh.png";  //刷新图片
 const static QString DELETEICON   = ":/image/image/critical.png"; //删除图片
-const static QString SYSTEMINFO   = "系统提示";                    //系统提示
 const static int     REFRESHTIME  = 3500;                         //刷新时间
 
-
-enum DATATYPE
+//列车信息表对应枚举
+enum TRAININFO
 {
-    TYPEINSERT,
-    TYPEUPDATE,
+    TRAINNUMMBER,
+    TRAINTYPE,
+    STARTSTATION,
+    ENDSTATION,
+    STARTTIME,
+    ENDTIME,
+    SLEEPERSEATNUMBER,
+    HARDSEADNUMBER,
+    SEATMONEY,
+    TRAININFOMAX,
+};
+
+//用户信息表对应枚举
+enum USERINFO
+{
+    IDCARDNUMBER,
+    USERTRAINNUMBER,
+    DATETIME,
+    USERSEATMONEY,
+    SEATNUMBER,
+    TOTALMONEY,
+    USERINFOMAX,
+};
+
+//查询类型
+enum SELECTYPE
+{
+    SELECTALL,
+    SELECTLIKE,
 };
 
 }

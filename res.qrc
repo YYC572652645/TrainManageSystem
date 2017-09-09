@@ -7,6 +7,7 @@
         <file>image/refresh.png</file>
         <file>image/critical.png</file>
         <file>image/serch.png</file>
+        <file>image/update.jpg</file>
     </qresource>
     <qresource prefix="/qss">
         <file>qss/style.qss</file>

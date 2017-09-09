@@ -21,6 +21,9 @@ public:
 
     void initControl();
 
+private slots:
+    void insertData();
+
 private:
     Ui::userinfoinsert *ui;
 

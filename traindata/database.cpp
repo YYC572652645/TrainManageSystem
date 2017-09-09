@@ -14,6 +14,11 @@ DataBase::DataBase()
     }
 }
 
+QList<UserInfo> DataBase::getUserData() const
+{
+    return userData;
+}
+
 QList<TrainInfo> DataBase::getTrainData() const
 {
     return trainData;
@@ -37,11 +42,10 @@ bool DataBase::dataCnn()
     db.setDatabaseName(DATACONFIG.dataBaseName);                          //设置数据库名
     db.setUserName(DATACONFIG.userName);                                  //设置用户名
     db.setPassword(DATACONFIG.passWord);                                  //设置密码
+
     //如果数据库处于打开状态，则关闭
-    if(db.isOpen())
-    {
-        db.close();
-    }
+    if(db.isOpen())  db.close();
+
     return db.open();
 }
 
@@ -73,19 +77,29 @@ bool DataBase::insertTrainData(TrainInfo &trainInfo)
     return success;
 }
 
-/***************************查询数据***********************/
-int DataBase::selectTrainData()
+/***************************查询列车数据***********************/
+int DataBase::selectTrainData(int type,QString data)
 {
     trainData.clear();
-    int Count = 0;
-    if(!db.isOpen())
-    {
-        db.open();
-    }
-    QSqlQuery query;
-    QString Str = QString("select * from traininfo;");
+    int count = 0;
 
-    bool success = query.exec(Str);  //执行sql语句
+    if(!db.isOpen()) db.open();
+
+    QSqlQuery query;
+
+    QString str;
+
+    if(type == GLOBALDEF::SELECTALL)
+    {
+        str = "select * from traininfo;";
+    }
+    else
+    {
+        str = "select * from traininfo where trainnumber like '%" + data +"%'";
+    }
+
+
+    bool success = query.exec(str);  //执行sql语句
 
     if(!success)  return GLOBALDEF::ERROR;
 
@@ -94,55 +108,194 @@ int DataBase::selectTrainData()
     {
         TrainInfo trainInfo;
 
-        trainInfo.trainNumber       = query.value(0).toString();
-        trainInfo.trainType         = query.value(1).toString();
-        trainInfo.startStation      = query.value(2).toString();
-        trainInfo.endStation        = query.value(3).toString();
-        trainInfo.startTime         = query.value(4).toString();
-        trainInfo.endTime           = query.value(5).toString();
-        trainInfo.sleeperSeatNumber = query.value(6).toString();
-        trainInfo.hardSeadNumber    = query.value(7).toString();
-        trainInfo.seatMoney         = query.value(8).toString();
+        trainInfo.trainNumber       = query.value(GLOBALDEF::TRAINNUMMBER).toString();
+        trainInfo.trainType         = query.value(GLOBALDEF::TRAINTYPE).toString();
+        trainInfo.startStation      = query.value(GLOBALDEF::STARTSTATION).toString();
+        trainInfo.endStation        = query.value(GLOBALDEF::ENDSTATION).toString();
+        trainInfo.startTime         = query.value(GLOBALDEF::STARTTIME).toString();
+        trainInfo.endTime           = query.value(GLOBALDEF::ENDTIME).toString();
+        trainInfo.sleeperSeatNumber = query.value(GLOBALDEF::SLEEPERSEATNUMBER).toString();
+        trainInfo.hardSeadNumber    = query.value(GLOBALDEF::HARDSEADNUMBER).toString();
+        trainInfo.seatMoney         = query.value(GLOBALDEF::SEATMONEY).toString();
 
         trainData.append(trainInfo);
 
-        Count ++;
+        count ++;
     }
 
     db.close();
 
-    return Count;
+    return count;
 }
 
-/***************************更改数据***********************/
-bool DataBase::updateData()
+/***************************更改列车数据***********************/
+bool DataBase::updateTrainData(TrainInfo &trainInfo)
 {
-    if(!db.isOpen())
-    {
-        db.open();
-    }
+    if(!db.isOpen()) db.open();
+
     QSqlQuery query;
-    QString Str = QString("update  table set('','');");
-    bool success = query.exec(Str);  //执行sql语句
+
+    QString str = QString("update traininfo set ");
+
+    str += "traintype = '"         + trainInfo.trainType          + "',";
+
+    str += "startstation = '"      + trainInfo.startStation       + "'," ;
+
+    str += "endstation = '"        + trainInfo.endStation         + "',";
+
+    str += "starttime = '"         + trainInfo.startTime          + "',";
+
+    str += "endtime = '"           + trainInfo.endTime            + "',";
+
+    str += "sleeperseatnumber = '" + trainInfo.sleeperSeatNumber  + "',";
+
+    str += "hardseadnumber = '"    + trainInfo.hardSeadNumber     + "',";
+
+    str += "seatmoney = '"         + trainInfo.seatMoney          + "' ";
+
+    str += "where trainnumber = '" + trainInfo.trainNumber        + "';";
+
+    bool success = query.exec(str);  //执行sql语句
 
     db.close();
 
     return success;
 }
 
-/***************************删除数据***********************/
-bool DataBase::deleteData()
+/***************************删除列车数据***********************/
+bool DataBase::deleteTrainData(QString trainNumber)
 {
-    if(!db.isOpen())
-    {
-        db.open();
-    }
+    if(trainNumber.isEmpty()) return false;
+
+    if(!db.isOpen()) db.open();
+
     QSqlQuery query;
-    QString Str = QString("delete from table where ;");
-    bool success = query.exec(Str);  //执行sql语句
+
+    QString str = QString("delete from traininfo where trainnumber = '") + trainNumber + "';";
+
+    bool success = query.exec(str);
 
     db.close();
 
     return success;
 }
+
+/***************************插入用户数据***********************/
+bool DataBase::insertUserData(UserInfo & userInfo)
+{
+    if(!db.isOpen()) db.open();
+
+    QSqlQuery query;
+
+    QString str = QString("insert into userinfo values('");
+
+    str += userInfo.idCardNumber  + "','" + userInfo.trainNumber   + "','";
+
+    str += userInfo.dataTime      + "','" + userInfo.seatMoney     + "','";
+
+    str += userInfo.seatNumber    + "','" + userInfo.totalMoney    + "');";
+
+
+    qDebug()<<str;
+
+    bool success = query.exec(str);  //执行sql语句
+
+    db.close();
+
+    return success;
+}
+
+/***************************查询列车数据***********************/
+int DataBase::selectUserData(int type, QString data)
+{
+    userData.clear();
+    int count = 0;
+
+    if(!db.isOpen()) db.open();
+
+    QSqlQuery query;
+
+    QString str;
+
+    if(type == GLOBALDEF::SELECTALL)
+    {
+        str = "select * from userinfo;";
+    }
+    else
+    {
+        str = "select * from userinfo where idcardnumber like '%" + data +"%'";
+    }
+
+    bool success = query.exec(str);  //执行sql语句
+
+    if(!success)  return GLOBALDEF::ERROR;
+
+
+    while(query.next())        //挨个遍历数据
+    {
+        UserInfo userInfo;
+
+        userInfo.idCardNumber  = query.value(GLOBALDEF::IDCARDNUMBER).toString();
+        userInfo.trainNumber   = query.value(GLOBALDEF::USERTRAINNUMBER).toString();
+        userInfo.dataTime      = query.value(GLOBALDEF::DATETIME).toString();
+        userInfo.seatMoney     = query.value(GLOBALDEF::USERSEATMONEY).toString();
+        userInfo.seatNumber    = query.value(GLOBALDEF::SEATNUMBER).toString();
+        userInfo.totalMoney    = query.value(GLOBALDEF::TOTALMONEY).toString();
+
+        userData.append(userInfo);
+
+        count ++;
+    }
+
+    db.close();
+
+    return count;
+}
+
+/***************************更改列车数据***********************/
+bool DataBase::updateUserData(UserInfo & userInfo)
+{
+    if(!db.isOpen()) db.open();
+
+    QSqlQuery query;
+
+    QString str = QString("update userinfo set ");
+
+    str += "trainnumber = '"        + userInfo.trainNumber    + "',";
+
+    str += "datatime = '"           + userInfo.dataTime       + "'," ;
+
+    str += "seatmoney = '"          + userInfo.seatMoney      + "',";
+
+    str += "seatnumber = '"         + userInfo.seatNumber     + "',";
+
+    str += "totalmoney = '"         + userInfo.totalMoney     + "' ";
+
+    str += "where idcardnumber = '" + userInfo.idCardNumber   + "';";
+
+    bool success = query.exec(str);  //执行sql语句
+
+    db.close();
+
+    return success;
+}
+
+/***************************删除列车数据***********************/
+bool DataBase::deleteUserData(QString idCardNumber)
+{
+    if(idCardNumber.isEmpty()) return false;
+
+    if(!db.isOpen()) db.open();
+
+    QSqlQuery query;
+
+    QString str = QString("delete from userinfo where idcardnumber = '") + idCardNumber + "';";
+
+    bool success = query.exec(str);
+
+    db.close();
+
+    return success;
+}
+
 

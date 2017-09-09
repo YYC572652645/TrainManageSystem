@@ -34,3 +34,17 @@ QMenu::item:selected
 {
     background-color:rgb(40,150,200);
 }
+
+QTableWidget::item:selected:active
+{
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0.7, y2: 0.7, stop: 0.5 #FF92BB, stop: 1 rgb(9,150,200));
+}
+
+QHeaderView::section
+{
+    font:14pt;
+    background-color:rgb(0,130,150);
+    color:white;
+}
+
+

@@ -1,12 +1,11 @@
 #include "traininfoselect.h"
 #include "ui_traininfoselect.h"
-#include "traindata/database.h"
 #include "globaldef.h"
 #include <QVBoxLayout>
 #include <QDebug>
 
 TrainInfoSelect::TrainInfoSelect(QWidget *parent) :
-    QWidget(parent),
+    QWidget(parent),rowCount(0),
     ui(new Ui::traininfoselect)
 {
     ui->setupUi(this);
@@ -18,7 +17,7 @@ TrainInfoSelect::TrainInfoSelect(QWidget *parent) :
 
     this->initControl();
 
-    dataSelect();
+    dataSelect(GLOBALDEF::SELECTALL);
 }
 
 TrainInfoSelect::~TrainInfoSelect()
@@ -32,15 +31,22 @@ void TrainInfoSelect::updateMovie()
     movie->stop();
     timer->stop();
 }
+
+/*******************   更新数据       ***********************/
+void TrainInfoSelect::updateData()
+{
+    DATABASE->updateTrainData(trainInfo);
+}
+
 /*******************   刷新数据       ***********************/
 void TrainInfoSelect::on_pushButtonRefresh_clicked()
 {
     ui->labelMovie->setMovie(movie);
     movie->start();
 
-    dataSelect();
+    dataSelect(GLOBALDEF::SELECTALL);
 
-    timer->start(3500);
+    timer->start(GLOBALDEF::REFRESHTIME);
 }
 
 
@@ -56,11 +62,6 @@ void TrainInfoSelect::initControl()
     QHeaderView *headerView=ui->tableWidget->horizontalHeader();
     headerView=ui->tableWidget->verticalHeader();
     headerView->setHidden(true);
-
-    //设置为不可编辑
-    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-    ui->tableWidget->setStyleSheet("QTableView QHeaderView::section {background-color:#EAE9EE}");
 
     //设置表头点击禁止塌陷
     ui->tableWidget->horizontalHeader()->setHighlightSections(false);
@@ -80,34 +81,34 @@ void TrainInfoSelect::initControl()
 void TrainInfoSelect::createActions()
 {
     menu    = new QMenu(this);
-    update   = new QAction(QIcon(GLOBALDEF::PRINTICON),  "更新", this);
-    refresh = new QAction(QIcon(GLOBALDEF::REFRESHICON), "刷新", this);
-    del     = new QAction(QIcon(GLOBALDEF::DELETEICON),  "删除", this);
+    update   = new QAction(QIcon(GLOBALDEF::UPDATEICON),  "更新", this);
+    refresh = new QAction(QIcon(GLOBALDEF::REFRESHICON),  "刷新" , this);
+    del     = new QAction(QIcon(GLOBALDEF::DELETEICON) ,  "删除", this);
 
-    //connect(update,  SIGNAL(triggered(bool)), this,SLOT(on_actionPrintLabel_triggered()));
+    connect(update,  SIGNAL(triggered(bool)), this,SLOT(updateData()));
     connect(refresh, SIGNAL(triggered(bool)), this,SLOT(on_pushButtonRefresh_clicked()));
-    //connect(del,     SIGNAL(triggered(bool)), this,SLOT(on_actionDeleteInfo_triggered()));
+    connect(del,     SIGNAL(triggered(bool)), this,SLOT(dataDelete()));
 }
 
-void TrainInfoSelect::dataSelect()
+void TrainInfoSelect::dataSelect(int type)
 {
-    int dataCount = DATABASE->selectTrainData();  //查询出的数据条数
+    int dataCount = DATABASE->selectTrainData(type, ui->lineEdit->text()); //查询出的数据条数
 
     if(dataCount == GLOBALDEF::ERROR) return;
 
-    ui->tableWidget->setRowCount(dataCount);    //设置表格行数
+    ui->tableWidget->setRowCount(dataCount);          //设置表格行数
 
     for(int i = 0; i < DATABASE->getTrainData().size(); i ++)
     {
-        ui->tableWidget->setItem(i, 0, DATA(DATABASE->getTrainData().at(i).trainNumber));
-        ui->tableWidget->setItem(i, 1, DATA(DATABASE->getTrainData().at(i).trainType));
-        ui->tableWidget->setItem(i, 2, DATA(DATABASE->getTrainData().at(i).startStation));
-        ui->tableWidget->setItem(i, 3, DATA(DATABASE->getTrainData().at(i).endStation));
-        ui->tableWidget->setItem(i, 4, DATA(DATABASE->getTrainData().at(i).startTime));
-        ui->tableWidget->setItem(i, 5, DATA(DATABASE->getTrainData().at(i).endTime));
-        ui->tableWidget->setItem(i, 6, DATA(DATABASE->getTrainData().at(i).sleeperSeatNumber));
-        ui->tableWidget->setItem(i, 7, DATA(DATABASE->getTrainData().at(i).hardSeadNumber));
-        ui->tableWidget->setItem(i, 8, DATA(DATABASE->getTrainData().at(i).seatMoney));
+        ui->tableWidget->setItem(i, GLOBALDEF::TRAINNUMMBER,      DATA(DATABASE->getTrainData().at(i).trainNumber));
+        ui->tableWidget->setItem(i, GLOBALDEF::TRAINTYPE,         DATA(DATABASE->getTrainData().at(i).trainType));
+        ui->tableWidget->setItem(i, GLOBALDEF::STARTSTATION,      DATA(DATABASE->getTrainData().at(i).startStation));
+        ui->tableWidget->setItem(i, GLOBALDEF::ENDSTATION,        DATA(DATABASE->getTrainData().at(i).endStation));
+        ui->tableWidget->setItem(i, GLOBALDEF::STARTTIME,         DATA(DATABASE->getTrainData().at(i).startTime));
+        ui->tableWidget->setItem(i, GLOBALDEF::ENDTIME,           DATA(DATABASE->getTrainData().at(i).endTime));
+        ui->tableWidget->setItem(i, GLOBALDEF::SLEEPERSEATNUMBER, DATA(DATABASE->getTrainData().at(i).sleeperSeatNumber));
+        ui->tableWidget->setItem(i, GLOBALDEF::HARDSEADNUMBER,    DATA(DATABASE->getTrainData().at(i).hardSeadNumber));
+        ui->tableWidget->setItem(i, GLOBALDEF::SEATMONEY,         DATA(DATABASE->getTrainData().at(i).seatMoney));
     }
 
     //滑动至最后一行
@@ -121,7 +122,15 @@ void TrainInfoSelect::dataSelect()
     }
 }
 
-/**************************显示菜单***************************/
+/**************************          删除数据      ***************************/
+void TrainInfoSelect::dataDelete()
+{
+    DATABASE->deleteTrainData(trainInfo.trainNumber);
+
+    dataSelect(GLOBALDEF::SELECTALL);
+}
+
+/**************************          显示菜单      ***************************/
 void TrainInfoSelect::contextMenuEvent(QContextMenuEvent *event)
 {
     menu->clear();
@@ -135,3 +144,31 @@ void TrainInfoSelect::contextMenuEvent(QContextMenuEvent *event)
     event->accept();
 }
 
+/**************************          表格点击事件      ***************************/
+void TrainInfoSelect::on_tableWidget_clicked(const QModelIndex &index)
+{
+    rowCount = index.row();
+
+    for(int i = 0; i < GLOBALDEF::TRAININFOMAX; i ++)
+    {
+        QTableWidgetItem * item = ui->tableWidget->item(index.row(), i);
+        switch(i)
+        {
+        case GLOBALDEF::TRAINNUMMBER:      trainInfo.trainNumber       = item->text(); break;
+        case GLOBALDEF::TRAINTYPE:         trainInfo.trainType         = item->text(); break;
+        case GLOBALDEF::STARTSTATION:      trainInfo.startStation      = item->text(); break;
+        case GLOBALDEF::ENDSTATION:        trainInfo.endStation        = item->text(); break;
+        case GLOBALDEF::STARTTIME:         trainInfo.startTime         = item->text(); break;
+        case GLOBALDEF::ENDTIME:           trainInfo.endTime           = item->text(); break;
+        case GLOBALDEF::SLEEPERSEATNUMBER: trainInfo.sleeperSeatNumber = item->text(); break;
+        case GLOBALDEF::HARDSEADNUMBER:    trainInfo.hardSeadNumber    = item->text(); break;
+        case GLOBALDEF::SEATMONEY:         trainInfo.seatMoney         = item->text(); break;
+        }
+    }
+}
+
+/**************************          查询数据      ***************************/
+void TrainInfoSelect::on_pushButtonFind_clicked()
+{
+    dataSelect(GLOBALDEF::SELECTLIKE);
+}

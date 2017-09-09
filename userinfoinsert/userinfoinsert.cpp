@@ -1,5 +1,6 @@
 #include "userinfoinsert.h"
 #include "ui_userinfoinsert.h"
+#include "traindata/database.h"
 
 UserInfoInsert::UserInfoInsert(QWidget *parent) :
     QWidget(parent),
@@ -76,9 +77,6 @@ void UserInfoInsert::initControl()
     hboxLayoutTotalMoney->setAlignment(widgetTotalMoney,Qt::AlignCenter);
     widgetTotalMoney->setLayout(hboxLayoutTotalMoney);
 
-
-
-
     /*************************录入数据信息***********************/
     insertButton=new QPushButton(this);
     QWidget *widgetButton = new QWidget(this);
@@ -101,7 +99,7 @@ void UserInfoInsert::initControl()
     ui->tableWidgetInsert->setCellWidget(1, 1, widgetSeatMoney);
     ui->tableWidgetInsert->setCellWidget(1, 3, widgetSeatNumber);
     ui->tableWidgetInsert->setCellWidget(1, 5, widgetTotalMoney);
-    ui->tableWidgetInsert->setCellWidget(2, 5, insertButton);
+    ui->tableWidgetInsert->setCellWidget(2, 5, widgetButton);
 
     //把表头上面去掉
     ui->tableWidgetInsert->horizontalHeader()->setVisible(false);
@@ -124,7 +122,6 @@ void UserInfoInsert::initControl()
     //设置为不可编辑
     ui->tableWidgetInsert->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-
     QTableWidgetItem *textTrainNumber = new QTableWidgetItem("身份证号：");
     textTrainNumber->setTextAlignment(Qt::AlignCenter);
     ui->tableWidgetInsert->setItem(0, 0, textTrainNumber);
@@ -133,26 +130,35 @@ void UserInfoInsert::initControl()
     textTrainType->setTextAlignment(Qt::AlignCenter);
     ui->tableWidgetInsert->setItem(0, 2, textTrainType);
 
-
     QTableWidgetItem *textDateTime = new QTableWidgetItem("时间：");
     textDateTime->setTextAlignment(Qt::AlignCenter);
     ui->tableWidgetInsert->setItem(0, 4, textDateTime);
-
 
     QTableWidgetItem *textSeatMoney = new QTableWidgetItem("票价：");
     textSeatMoney->setTextAlignment(Qt::AlignCenter);
     ui->tableWidgetInsert->setItem(1, 0, textSeatMoney);
 
-
     QTableWidgetItem *textSeatNumber = new QTableWidgetItem("票数：");
     textSeatNumber->setTextAlignment(Qt::AlignCenter);
     ui->tableWidgetInsert->setItem(1, 2, textSeatNumber);
 
-
-    QTableWidgetItem *textTotalMoney = new QTableWidgetItem("总价钱：");
+    QTableWidgetItem *textTotalMoney = new QTableWidgetItem("总价：");
     textTotalMoney->setTextAlignment(Qt::AlignCenter);
     ui->tableWidgetInsert->setItem(1, 4, textTotalMoney);
 
-
     connect(insertButton,SIGNAL(clicked()), this, SLOT(insertData()));
+}
+
+void UserInfoInsert::insertData()
+{
+    UserInfo userInfo;
+
+    userInfo.idCardNumber  = lineEditIDCardNumber->text(); //身份证号
+    userInfo.trainNumber   = lineEditTrainNumber->text();  //车次
+    userInfo.dataTime      = dateEditDateTime->text();     //时间
+    userInfo.seatMoney     = lineEditSeatMoney->text();    //票价
+    userInfo.seatNumber    = lineEditSeatNumber->text();   //票数
+    userInfo.totalMoney    = lineEditTotalMoney->text();   //总价钱
+
+    DATABASE->insertUserData(userInfo);
 }

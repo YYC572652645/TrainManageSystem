@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>607</width>
+    <height>392</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -94,17 +94,17 @@ background-color:transparent;
       <widget class="QTableWidget" name="tableWidget">
        <column>
         <property name="text">
+         <string>身份证号</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
          <string>车次</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>分类</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>起点站</string>
+         <string>时间</string>
         </property>
        </column>
        <column>
@@ -114,27 +114,17 @@ background-color:transparent;
        </column>
        <column>
         <property name="text">
-         <string>发车时间</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>到站时间</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>硬座座位</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>卧铺座位</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
          <string>票价</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>票数</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>总价</string>
         </property>
        </column>
       </widget>

@@ -114,6 +114,7 @@ public:
         QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
         tableWidget->setHorizontalHeaderItem(8, __qtablewidgetitem8);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
+        tableWidget->setStyleSheet(QStringLiteral(""));
 
         verticalLayout->addWidget(tableWidget);
 
@@ -135,19 +136,19 @@ public:
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("traininfoselect", "\350\275\246\346\254\241", 0));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QApplication::translate("traininfoselect", "\345\210\206\347\261\273", 0));
+        ___qtablewidgetitem1->setText(QApplication::translate("traininfoselect", "\347\261\273\345\236\213", 0));
         QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QApplication::translate("traininfoselect", "\350\265\267\347\202\271\347\253\231", 0));
+        ___qtablewidgetitem2->setText(QApplication::translate("traininfoselect", "\350\265\267\345\247\213\347\253\231", 0));
         QTableWidgetItem *___qtablewidgetitem3 = tableWidget->horizontalHeaderItem(3);
         ___qtablewidgetitem3->setText(QApplication::translate("traininfoselect", "\347\273\210\347\202\271\347\253\231", 0));
         QTableWidgetItem *___qtablewidgetitem4 = tableWidget->horizontalHeaderItem(4);
         ___qtablewidgetitem4->setText(QApplication::translate("traininfoselect", "\345\217\221\350\275\246\346\227\266\351\227\264", 0));
         QTableWidgetItem *___qtablewidgetitem5 = tableWidget->horizontalHeaderItem(5);
-        ___qtablewidgetitem5->setText(QApplication::translate("traininfoselect", "\345\210\260\347\253\231\346\227\266\351\227\264", 0));
+        ___qtablewidgetitem5->setText(QApplication::translate("traininfoselect", "\346\200\273\344\273\267", 0));
         QTableWidgetItem *___qtablewidgetitem6 = tableWidget->horizontalHeaderItem(6);
-        ___qtablewidgetitem6->setText(QApplication::translate("traininfoselect", "\347\241\254\345\272\247\345\272\247\344\275\215", 0));
+        ___qtablewidgetitem6->setText(QApplication::translate("traininfoselect", "\345\210\260\347\253\231\346\227\266\351\227\264", 0));
         QTableWidgetItem *___qtablewidgetitem7 = tableWidget->horizontalHeaderItem(7);
-        ___qtablewidgetitem7->setText(QApplication::translate("traininfoselect", "\345\215\247\351\223\272\345\272\247\344\275\215", 0));
+        ___qtablewidgetitem7->setText(QApplication::translate("traininfoselect", "\347\241\254\345\272\247\346\225\260", 0));
         QTableWidgetItem *___qtablewidgetitem8 = tableWidget->horizontalHeaderItem(8);
         ___qtablewidgetitem8->setText(QApplication::translate("traininfoselect", "\347\245\250\344\273\267", 0));
     } // retranslateUi

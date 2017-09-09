@@ -92,6 +92,9 @@ background-color:transparent;
      </item>
      <item>
       <widget class="QTableWidget" name="tableWidget">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <column>
         <property name="text">
          <string>车次</string>
@@ -99,12 +102,12 @@ background-color:transparent;
        </column>
        <column>
         <property name="text">
-         <string>分类</string>
+         <string>类型</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>起点站</string>
+         <string>起始站</string>
         </property>
        </column>
        <column>
@@ -119,17 +122,17 @@ background-color:transparent;
        </column>
        <column>
         <property name="text">
+         <string>总价</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
          <string>到站时间</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>硬座座位</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>卧铺座位</string>
+         <string>硬座数</string>
         </property>
        </column>
        <column>
