@@ -101,6 +101,7 @@ void UserInfoSelect::dataSelect(int type)
         ui->tableWidget->setItem(i, GLOBALDEF::IDCARDNUMBER,      DATA(DATABASE->getUserData().at(i).idCardNumber));
         ui->tableWidget->setItem(i, GLOBALDEF::USERTRAINNUMBER,   DATA(DATABASE->getUserData().at(i).trainNumber));
         ui->tableWidget->setItem(i, GLOBALDEF::DATETIME,          DATA(DATABASE->getUserData().at(i).dataTime));
+        ui->tableWidget->setItem(i, GLOBALDEF::SEATTYPE,          DATA(DATABASE->getUserData().at(i).seatType));
         ui->tableWidget->setItem(i, GLOBALDEF::USERSEATMONEY,     DATA(DATABASE->getUserData().at(i).seatMoney));
         ui->tableWidget->setItem(i, GLOBALDEF::SEATNUMBER,        DATA(DATABASE->getUserData().at(i).seatNumber));
         ui->tableWidget->setItem(i, GLOBALDEF::TOTALMONEY,        DATA(DATABASE->getUserData().at(i).totalMoney));
@@ -165,3 +166,5 @@ void UserInfoSelect::on_pushButtonFind_clicked()
 {
     dataSelect(GLOBALDEF::SELECTLIKE);
 }
+
+

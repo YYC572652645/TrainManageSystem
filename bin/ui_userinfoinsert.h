@@ -48,14 +48,16 @@ public:
         tableWidgetInsert->setHorizontalHeaderItem(4, __qtablewidgetitem4);
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
         tableWidgetInsert->setHorizontalHeaderItem(5, __qtablewidgetitem5);
-        if (tableWidgetInsert->rowCount() < 3)
-            tableWidgetInsert->setRowCount(3);
+        if (tableWidgetInsert->rowCount() < 4)
+            tableWidgetInsert->setRowCount(4);
         QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
         tableWidgetInsert->setVerticalHeaderItem(0, __qtablewidgetitem6);
         QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
         tableWidgetInsert->setVerticalHeaderItem(1, __qtablewidgetitem7);
         QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
         tableWidgetInsert->setVerticalHeaderItem(2, __qtablewidgetitem8);
+        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
+        tableWidgetInsert->setVerticalHeaderItem(3, __qtablewidgetitem9);
         tableWidgetInsert->setObjectName(QStringLiteral("tableWidgetInsert"));
 
         verticalLayout_2->addWidget(tableWidgetInsert);
@@ -87,6 +89,8 @@ public:
         ___qtablewidgetitem7->setText(QApplication::translate("userinfoinsert", "\346\226\260\345\273\272\350\241\214", 0));
         QTableWidgetItem *___qtablewidgetitem8 = tableWidgetInsert->verticalHeaderItem(2);
         ___qtablewidgetitem8->setText(QApplication::translate("userinfoinsert", "\346\226\260\345\273\272\350\241\214", 0));
+        QTableWidgetItem *___qtablewidgetitem9 = tableWidgetInsert->verticalHeaderItem(3);
+        ___qtablewidgetitem9->setText(QApplication::translate("userinfoinsert", "\346\226\260\345\273\272\350\241\214", 0));
     } // retranslateUi
 
 };

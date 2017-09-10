@@ -58,17 +58,17 @@ bool DataBase::insertTrainData(TrainInfo &trainInfo)
 
     QString str = QString("insert into traininfo values('");
 
-    str += trainInfo.trainNumber       + "','" + trainInfo.trainType      + "','";
+    str += trainInfo.trainNumber         + "','" + trainInfo.trainType              + "','";
 
-    str += trainInfo.startStation      + "','" + trainInfo.endStation     + "','";
+    str += trainInfo.startStation        + "','" + trainInfo.endStation             + "','";
 
-    str += trainInfo.startTime         + "','" + trainInfo.endTime        + "','";
+    str += trainInfo.startTime           + "','" + trainInfo.endTime                + "','";
 
-    str += trainInfo.sleeperSeatNumber + "','" + trainInfo.hardSeadNumber + "','";
+    str += trainInfo.sleeperSeatNumber   + "','" + trainInfo.hardSeadNumber         + "','";
 
-    str += trainInfo.seatMoney + "');";
+    str += trainInfo.seatMoney           + "','" + trainInfo.totalSleeperSeatNumber + "','";
 
-    qDebug()<<str;
+    str += trainInfo.totalHardSeadNumber + "');";
 
     bool success = query.exec(str);  //执行sql语句
 
@@ -78,9 +78,9 @@ bool DataBase::insertTrainData(TrainInfo &trainInfo)
 }
 
 /***************************查询列车数据***********************/
-int DataBase::selectTrainData(int type,QString data)
+int DataBase::selectTrainData(int type, QString data)
 {
-    trainData.clear();
+
     int count = 0;
 
     if(!db.isOpen()) db.open();
@@ -91,11 +91,17 @@ int DataBase::selectTrainData(int type,QString data)
 
     if(type == GLOBALDEF::SELECTALL)
     {
+        trainData.clear();
         str = "select * from traininfo;";
+    }
+    else if(type == GLOBALDEF::SELECTLIKE)
+    {
+        trainData.clear();
+        str = "select * from traininfo where trainnumber like '%" + data +"%'";
     }
     else
     {
-        str = "select * from traininfo where trainnumber like '%" + data +"%'";
+        str = "select * from traininfo where trainnumber = '" + data +"'";
     }
 
 
@@ -106,19 +112,24 @@ int DataBase::selectTrainData(int type,QString data)
 
     while(query.next())        //挨个遍历数据
     {
-        TrainInfo trainInfo;
+        if(type != GLOBALDEF::SELECTWHERE)
+        {
+            TrainInfo trainInfo;
 
-        trainInfo.trainNumber       = query.value(GLOBALDEF::TRAINNUMMBER).toString();
-        trainInfo.trainType         = query.value(GLOBALDEF::TRAINTYPE).toString();
-        trainInfo.startStation      = query.value(GLOBALDEF::STARTSTATION).toString();
-        trainInfo.endStation        = query.value(GLOBALDEF::ENDSTATION).toString();
-        trainInfo.startTime         = query.value(GLOBALDEF::STARTTIME).toString();
-        trainInfo.endTime           = query.value(GLOBALDEF::ENDTIME).toString();
-        trainInfo.sleeperSeatNumber = query.value(GLOBALDEF::SLEEPERSEATNUMBER).toString();
-        trainInfo.hardSeadNumber    = query.value(GLOBALDEF::HARDSEADNUMBER).toString();
-        trainInfo.seatMoney         = query.value(GLOBALDEF::SEATMONEY).toString();
+            trainInfo.trainNumber            = query.value(GLOBALDEF::TRAINNUMMBER).toString();
+            trainInfo.trainType              = query.value(GLOBALDEF::TRAINTYPE).toString();
+            trainInfo.startStation           = query.value(GLOBALDEF::STARTSTATION).toString();
+            trainInfo.endStation             = query.value(GLOBALDEF::ENDSTATION).toString();
+            trainInfo.startTime              = query.value(GLOBALDEF::STARTTIME).toString();
+            trainInfo.endTime                = query.value(GLOBALDEF::ENDTIME).toString();
+            trainInfo.sleeperSeatNumber      = query.value(GLOBALDEF::SLEEPERSEATNUMBER).toString();
+            trainInfo.hardSeadNumber         = query.value(GLOBALDEF::HARDSEADNUMBER).toString();
+            trainInfo.seatMoney              = query.value(GLOBALDEF::SEATMONEY).toString();
+            trainInfo.totalSleeperSeatNumber = query.value(GLOBALDEF::TOTALSLEEPERSEATNUMBER).toString();
+            trainInfo.totalHardSeadNumber    = query.value(GLOBALDEF::TOTALHARDSEADNUMBER).toString();
 
-        trainData.append(trainInfo);
+            trainData.append(trainInfo);
+        }
 
         count ++;
     }
@@ -183,6 +194,11 @@ bool DataBase::deleteTrainData(QString trainNumber)
 /***************************插入用户数据***********************/
 bool DataBase::insertUserData(UserInfo & userInfo)
 {
+    if(selectTrainData(GLOBALDEF::SELECTWHERE, userInfo.trainNumber) <= 0)
+    {
+        return false;
+    }
+
     if(!db.isOpen()) db.open();
 
     QSqlQuery query;
@@ -191,12 +207,11 @@ bool DataBase::insertUserData(UserInfo & userInfo)
 
     str += userInfo.idCardNumber  + "','" + userInfo.trainNumber   + "','";
 
-    str += userInfo.dataTime      + "','" + userInfo.seatMoney     + "','";
+    str += userInfo.dataTime      + "','" + userInfo.seatType      + "','";
 
-    str += userInfo.seatNumber    + "','" + userInfo.totalMoney    + "');";
+    str += userInfo.seatMoney     + "','" + userInfo.seatNumber    + "','";
 
-
-    qDebug()<<str;
+    str += userInfo.totalMoney    + "');";
 
     bool success = query.exec(str);  //执行sql语句
 
@@ -238,6 +253,7 @@ int DataBase::selectUserData(int type, QString data)
         userInfo.idCardNumber  = query.value(GLOBALDEF::IDCARDNUMBER).toString();
         userInfo.trainNumber   = query.value(GLOBALDEF::USERTRAINNUMBER).toString();
         userInfo.dataTime      = query.value(GLOBALDEF::DATETIME).toString();
+        userInfo.seatType      = query.value(GLOBALDEF::SEATTYPE).toString();
         userInfo.seatMoney     = query.value(GLOBALDEF::USERSEATMONEY).toString();
         userInfo.seatNumber    = query.value(GLOBALDEF::SEATNUMBER).toString();
         userInfo.totalMoney    = query.value(GLOBALDEF::TOTALMONEY).toString();

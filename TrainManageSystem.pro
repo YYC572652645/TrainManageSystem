@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     traindata/qreadini.cpp \
     traininfoselect/traininfoselect.cpp \
     userinfoinsert/userinfoinsert.cpp \
-    userinfoselect/userinfoselect.cpp
+    userinfoselect/userinfoselect.cpp \
+    messagebox/messagedialog.cpp
 
 HEADERS  += mainwindow.h \
     traindata/database.h \
@@ -26,12 +27,14 @@ HEADERS  += mainwindow.h \
     globaldef.h \
     traininfoselect/traininfoselect.h \
     userinfoinsert/userinfoinsert.h \
-    userinfoselect/userinfoselect.h
+    userinfoselect/userinfoselect.h \
+    messagebox/messagedialog.h
 
 FORMS    += mainwindow.ui \
     traininfoselect/traininfoselect.ui \
     userinfoinsert/userinfoinsert.ui \
-    userinfoselect/userinfoselect.ui
+    userinfoselect/userinfoselect.ui \
+    messagebox/messagedialog.ui
 
 RESOURCES += \
     res.qrc

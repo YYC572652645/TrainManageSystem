@@ -4,6 +4,7 @@
 #include "traininfoselect/traininfoselect.h"
 #include "userinfoinsert/userinfoinsert.h"
 #include "userinfoselect/userinfoselect.h"
+#include "messagebox/messagedialog.h"
 #include "globaldef.h"
 #include <QDebug>
 
@@ -79,6 +80,8 @@ void MainWindow::initControl()
     hboxLayoutStartTime->addWidget(dateEditStartTime);
     hboxLayoutStartTime->setAlignment(widgetStartTime,Qt::AlignCenter);
     widgetStartTime->setLayout(hboxLayoutStartTime);
+    dateEditStartTime->setDisplayFormat("yyyy-MM-dd");
+    dateEditStartTime->setDateTime(QDateTime::currentDateTime());
 
 
     /*************************到站时间***********************/
@@ -89,6 +92,8 @@ void MainWindow::initControl()
     hboxLayoutEndTime->addWidget(dateEditEndTime);
     hboxLayoutEndTime->setAlignment(widgetEndTime,Qt::AlignCenter);
     widgetEndTime->setLayout(hboxLayoutEndTime);
+    dateEditEndTime->setDisplayFormat("yyyy-MM-dd");
+    dateEditEndTime->setDateTime(QDateTime::currentDateTime());
 
     /*************************可用座位硬座***********************/
     lineEditHardSeat = new QLineEdit(this);
@@ -224,17 +229,28 @@ void MainWindow::insertData()
 {
     TrainInfo trainInfo;
 
-     trainInfo.trainNumber       = lineEditTrainNumber->text();       //车次
-     trainInfo.trainType         = comboBoxTrainType->currentText();  //分类
-     trainInfo.startStation      = lineEditStartStation->text();      //起始站
-     trainInfo.endStation        = lineEditEndStation->text();        //终点站
-     trainInfo.startTime         = dateEditStartTime->text();         //发车时间
-     trainInfo.endTime           = dateEditEndTime->text();           //到站时间
-     trainInfo.hardSeadNumber    = lineEditHardSeat->text();          //硬座
-     trainInfo.sleeperSeatNumber = lineEditSleepSeat->text();         //卧铺
-     trainInfo.seatMoney         = lineEditSeatMoney->text();         //票价
+    trainInfo.trainNumber            = lineEditTrainNumber->text();       //车次
+    trainInfo.trainType              = comboBoxTrainType->currentText();  //分类
+    trainInfo.startStation           = lineEditStartStation->text();      //起始站
+    trainInfo.endStation             = lineEditEndStation->text();        //终点站
+    trainInfo.startTime              = dateEditStartTime->text();         //发车时间
+    trainInfo.endTime                = dateEditEndTime->text();           //到站时间
+    trainInfo.hardSeadNumber         = lineEditHardSeat->text();          //硬座
+    trainInfo.sleeperSeatNumber      = lineEditSleepSeat->text();         //卧铺
+    trainInfo.seatMoney              = lineEditSeatMoney->text();         //票价
+    trainInfo.totalHardSeadNumber    = lineEditHardSeat->text();          //硬座
+    trainInfo.totalSleeperSeatNumber = lineEditSleepSeat->text();         //卧铺
 
-    DATABASE->insertTrainData(trainInfo);
+    if(DATABASE->insertTrainData(trainInfo))
+    {
+        MESSAGEBOX->setInfo("系统提示", "录入成功", QPixmap(GLOBALDEF::SUCCESSIMAGE), true, this);
+    }
+    else
+    {
+        MESSAGEBOX->setInfo("系统提示", "录入失败", QPixmap(GLOBALDEF::SUCCESSIMAGE), true, this);
+    }
+
+
 }
 
 void MainWindow::on_actionTrainInfoSelect_triggered()

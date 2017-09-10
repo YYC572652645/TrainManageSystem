@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>736</width>
-    <height>300</height>
+    <width>876</width>
+    <height>413</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -91,56 +91,85 @@ background-color:transparent;
       </layout>
      </item>
      <item>
-      <widget class="QTableWidget" name="tableWidget">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <column>
-        <property name="text">
-         <string>车次</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>类型</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>起始站</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>终点站</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>发车时间</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>总价</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>到站时间</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>硬座数</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>票价</string>
-        </property>
-       </column>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QTableWidget" name="tableWidget">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <column>
+          <property name="text">
+           <string>车次</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>类型</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>起始站</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>终点站</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>发车时间</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>到站时间</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>硬座数</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>卧铺数</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>票价</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>收入总额</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="widgetSecond" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

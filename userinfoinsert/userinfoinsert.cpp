@@ -1,6 +1,8 @@
 #include "userinfoinsert.h"
 #include "ui_userinfoinsert.h"
 #include "traindata/database.h"
+#include "messagebox/messagedialog.h"
+#include "globaldef.h"
 
 UserInfoInsert::UserInfoInsert(QWidget *parent) :
     QWidget(parent),
@@ -15,7 +17,6 @@ UserInfoInsert::~UserInfoInsert()
 {
     delete ui;
 }
-
 
 void UserInfoInsert::initControl()
 {
@@ -46,26 +47,43 @@ void UserInfoInsert::initControl()
     hboxLayoutDateTime->addWidget(dateEditDateTime);
     hboxLayoutDateTime->setAlignment(widgetDateTime,Qt::AlignCenter);
     widgetDateTime->setLayout(hboxLayoutDateTime);
+    dateEditDateTime->setDisplayFormat("yyyy-MM-dd");
+    dateEditDateTime->setDateTime(QDateTime::currentDateTime());
+
+
+    /*************************车类型***********************/
+    comboBoxSeatType = new QComboBox(this);
+    comboBoxSeatType->setMinimumHeight(25);
+    QWidget *widgetSeatType = new QWidget(this);
+    QHBoxLayout *hboxLayoutSeatType = new QHBoxLayout(this);
+    hboxLayoutSeatType->addWidget(comboBoxSeatType);
+    hboxLayoutSeatType->setAlignment(widgetSeatType,Qt::AlignCenter);
+    widgetSeatType->setLayout(hboxLayoutSeatType);
+    comboBoxSeatType->addItem("硬座");
+    comboBoxSeatType->addItem("卧铺");
 
 
     /*************************票价***********************/
-    lineEditSeatMoney = new QLineEdit(this);
-    lineEditSeatMoney->setMinimumHeight(25);
+    spinBoxSeatMoney = new QSpinBox(this);
+    spinBoxSeatMoney->setMinimumHeight(25);
     QWidget *widgetSeatMoney = new QWidget(this);
     QHBoxLayout *hboxLayoutSeatMoney = new QHBoxLayout(this);
-    hboxLayoutSeatMoney->addWidget(lineEditSeatMoney);
+    hboxLayoutSeatMoney->addWidget(spinBoxSeatMoney);
     hboxLayoutSeatMoney->setAlignment(widgetSeatMoney,Qt::AlignCenter);
     widgetSeatMoney->setLayout(hboxLayoutSeatMoney);
-
+    spinBoxSeatMoney->setMaximum(1000);
+    spinBoxSeatMoney->setValue(100);
 
     /*************************买票数***********************/
-    lineEditSeatNumber = new QLineEdit(this);
-    lineEditSeatNumber->setMinimumHeight(25);
+    spinBoxSeatNumber = new QSpinBox(this);
+    spinBoxSeatNumber->setMinimumHeight(25);
     QWidget *widgetSeatNumber = new QWidget(this);
     QHBoxLayout *hboxLayoutSeatNumber = new QHBoxLayout(this);
-    hboxLayoutSeatNumber->addWidget(lineEditSeatNumber);
+    hboxLayoutSeatNumber->addWidget(spinBoxSeatNumber);
     hboxLayoutSeatNumber->setAlignment(widgetSeatNumber,Qt::AlignCenter);
     widgetSeatNumber->setLayout(hboxLayoutSeatNumber);
+    spinBoxSeatNumber->setMaximum(1000);
+    spinBoxSeatNumber->setValue(1);
 
 
     /*************************总价钱***********************/
@@ -96,10 +114,11 @@ void UserInfoInsert::initControl()
     ui->tableWidgetInsert->setCellWidget(0, 1, widgetIDCardNumber);
     ui->tableWidgetInsert->setCellWidget(0, 3, widgetTrainNumber);
     ui->tableWidgetInsert->setCellWidget(0, 5, widgetDateTime);
-    ui->tableWidgetInsert->setCellWidget(1, 1, widgetSeatMoney);
-    ui->tableWidgetInsert->setCellWidget(1, 3, widgetSeatNumber);
-    ui->tableWidgetInsert->setCellWidget(1, 5, widgetTotalMoney);
-    ui->tableWidgetInsert->setCellWidget(2, 5, widgetButton);
+    ui->tableWidgetInsert->setCellWidget(1, 1, widgetSeatType);
+    ui->tableWidgetInsert->setCellWidget(1, 3, widgetSeatMoney);
+    ui->tableWidgetInsert->setCellWidget(1, 5, widgetSeatNumber);
+    ui->tableWidgetInsert->setCellWidget(2, 1, widgetTotalMoney);
+    ui->tableWidgetInsert->setCellWidget(3, 5, widgetButton);
 
     //把表头上面去掉
     ui->tableWidgetInsert->horizontalHeader()->setVisible(false);
@@ -134,31 +153,60 @@ void UserInfoInsert::initControl()
     textDateTime->setTextAlignment(Qt::AlignCenter);
     ui->tableWidgetInsert->setItem(0, 4, textDateTime);
 
+    QTableWidgetItem *textSeatType = new QTableWidgetItem("座位类型：");
+    textSeatType->setTextAlignment(Qt::AlignCenter);
+    ui->tableWidgetInsert->setItem(1, 0, textSeatType);
+
     QTableWidgetItem *textSeatMoney = new QTableWidgetItem("票价：");
     textSeatMoney->setTextAlignment(Qt::AlignCenter);
-    ui->tableWidgetInsert->setItem(1, 0, textSeatMoney);
+    ui->tableWidgetInsert->setItem(1, 2, textSeatMoney);
 
     QTableWidgetItem *textSeatNumber = new QTableWidgetItem("票数：");
     textSeatNumber->setTextAlignment(Qt::AlignCenter);
-    ui->tableWidgetInsert->setItem(1, 2, textSeatNumber);
+    ui->tableWidgetInsert->setItem(1, 4, textSeatNumber);
 
     QTableWidgetItem *textTotalMoney = new QTableWidgetItem("总价：");
     textTotalMoney->setTextAlignment(Qt::AlignCenter);
-    ui->tableWidgetInsert->setItem(1, 4, textTotalMoney);
+    ui->tableWidgetInsert->setItem(2, 0, textTotalMoney);
 
     connect(insertButton,SIGNAL(clicked()), this, SLOT(insertData()));
+
+    lineEditTotalMoney->setEnabled(false);
+
+    connect(spinBoxSeatMoney, SIGNAL(valueChanged(int)), this, SLOT(seatMoneyChange(int)));
+    connect(spinBoxSeatNumber, SIGNAL(valueChanged(int)), this, SLOT(seatNumberChange(int)));
+
+    lineEditTotalMoney->setText(QString::number(spinBoxSeatNumber->value() * spinBoxSeatMoney->value()));
 }
 
 void UserInfoInsert::insertData()
 {
     UserInfo userInfo;
 
-    userInfo.idCardNumber  = lineEditIDCardNumber->text(); //身份证号
-    userInfo.trainNumber   = lineEditTrainNumber->text();  //车次
-    userInfo.dataTime      = dateEditDateTime->text();     //时间
-    userInfo.seatMoney     = lineEditSeatMoney->text();    //票价
-    userInfo.seatNumber    = lineEditSeatNumber->text();   //票数
-    userInfo.totalMoney    = lineEditTotalMoney->text();   //总价钱
+    userInfo.idCardNumber  = lineEditIDCardNumber->text();     //身份证号
+    userInfo.trainNumber   = lineEditTrainNumber->text();      //车次
+    userInfo.dataTime      = dateEditDateTime->text();         //时间
+    userInfo.seatType      = comboBoxSeatType->currentText();  //座位类型
+    userInfo.seatMoney     = spinBoxSeatMoney->text();         //票价
+    userInfo.seatNumber    = spinBoxSeatNumber->text();        //票数
+    userInfo.totalMoney    = lineEditTotalMoney->text();       //总价钱
 
-    DATABASE->insertUserData(userInfo);
+    if(DATABASE->insertUserData(userInfo))
+    {
+        MESSAGEBOX->setInfo("系统提示", "录入成功", QPixmap(GLOBALDEF::SUCCESSIMAGE), true, this);
+    }
+    else
+    {
+        MESSAGEBOX->setInfo("系统提示", "请检查车次和身份证号", QPixmap(GLOBALDEF::FAILIMAGE), true, this);
+    }
+}
+
+void UserInfoInsert::seatMoneyChange(int value)
+{
+    lineEditTotalMoney->setText(QString::number(spinBoxSeatNumber->value() * value));
+}
+
+void UserInfoInsert::seatNumberChange(int value)
+{
+    lineEditTotalMoney->setText(QString::number(spinBoxSeatMoney->value() * value));
 }

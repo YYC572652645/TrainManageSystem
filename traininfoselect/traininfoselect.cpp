@@ -5,7 +5,7 @@
 #include <QDebug>
 
 TrainInfoSelect::TrainInfoSelect(QWidget *parent) :
-    QWidget(parent),rowCount(0),
+    QWidget(parent),rowCount(0),firstSliderValue(0),secondSliderValue(0),
     ui(new Ui::traininfoselect)
 {
     ui->setupUi(this);
@@ -18,6 +18,12 @@ TrainInfoSelect::TrainInfoSelect(QWidget *parent) :
     this->initControl();
 
     dataSelect(GLOBALDEF::SELECTALL);
+
+    ui->widget->installEventFilter(this);      //注册监视对象
+    ui->widgetSecond->installEventFilter(this);//注册监视对象
+
+    ui->widget->hide();
+    ui->widgetSecond->hide();
 }
 
 TrainInfoSelect::~TrainInfoSelect()
@@ -109,6 +115,11 @@ void TrainInfoSelect::dataSelect(int type)
         ui->tableWidget->setItem(i, GLOBALDEF::SLEEPERSEATNUMBER, DATA(DATABASE->getTrainData().at(i).sleeperSeatNumber));
         ui->tableWidget->setItem(i, GLOBALDEF::HARDSEADNUMBER,    DATA(DATABASE->getTrainData().at(i).hardSeadNumber));
         ui->tableWidget->setItem(i, GLOBALDEF::SEATMONEY,         DATA(DATABASE->getTrainData().at(i).seatMoney));
+
+        int totalnumber  =  DATABASE->getTrainData().at(i).totalSleeperSeatNumber.toInt() - DATABASE->getTrainData().at(i).sleeperSeatNumber.toInt();
+        totalnumber     +=  DATABASE->getTrainData().at(i).totalHardSeadNumber.toInt() - DATABASE->getTrainData().at(i).hardSeadNumber.toInt();
+
+        ui->tableWidget->setItem(i, 9, DATA(QString::number(totalnumber * DATABASE->getTrainData().at(i).seatMoney.toInt())));
     }
 
     //滑动至最后一行
@@ -165,10 +176,126 @@ void TrainInfoSelect::on_tableWidget_clicked(const QModelIndex &index)
         case GLOBALDEF::SEATMONEY:         trainInfo.seatMoney         = item->text(); break;
         }
     }
+
+    for (int i = 0; i < DATABASE->getTrainData().size(); i ++)
+    {
+        if(trainInfo.trainNumber == DATABASE->getTrainData().at(i).trainNumber
+                &&trainInfo.startTime == DATABASE->getTrainData().at(i).startTime
+                && trainInfo.endTime == DATABASE->getTrainData().at(i).endTime)
+        {
+            float hardNumber = trainInfo.hardSeadNumber.toFloat();
+            float totalHardNumber = DATABASE->getTrainData().at(i).totalHardSeadNumber.toFloat();
+
+            if(totalHardNumber != 0)
+            {
+                float persent =  (totalHardNumber - hardNumber) / totalHardNumber;
+
+                this->setFirstSliderValue(persent);
+            }
+
+            float sleepNumber = trainInfo.sleeperSeatNumber.toFloat();
+            float totalSleepNumber = DATABASE->getTrainData().at(i).totalSleeperSeatNumber.toFloat();
+
+            if(totalSleepNumber != 0)
+            {
+                float persent = (totalSleepNumber - sleepNumber) / totalSleepNumber;
+
+                this->setSecondSliderValue(persent);
+            }
+
+            ui->widget->show();
+            ui->widgetSecond->show();
+            ui->widget->update();
+            ui->widgetSecond->update();
+        }
+    }
 }
 
 /**************************          查询数据      ***************************/
 void TrainInfoSelect::on_pushButtonFind_clicked()
 {
     dataSelect(GLOBALDEF::SELECTLIKE);
+}
+
+/************************    画图事件         **************************************/
+void TrainInfoSelect::paintImage(QWidget * widget, float sliderValue, QString text)
+{
+    if(NULL == widget) return;
+
+    QPainter painter(widget);
+
+    float sliderMaxValue = widget->height() * 0.9;
+    float sliderHigh  = -widget->height() * 0.8;  //进度条高度
+    const int sliderWidth = 60;                   //进度条宽度
+
+    //将坐标系的该点变成原点坐标
+    painter.translate(widget->width() * 0.3, sliderMaxValue);
+
+    //设置画笔为红色
+    QPen pen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter.setPen(pen);
+
+    //画下面直线
+    painter.drawLine(0, 0, sliderWidth, 0);
+
+    //画左边直线
+    painter.drawLine(0, 0, 0, sliderHigh);
+
+    //画右边直线
+    painter.drawLine(sliderWidth, 0, sliderWidth, sliderHigh);
+
+    //画上面直线线
+    painter.drawLine(0, sliderHigh, sliderWidth, sliderHigh);
+
+    //画进度值
+    painter.drawText(sliderWidth - 40, sliderHigh - 10,tr("%%1").arg(sliderValue * 100));
+    painter.drawText(-10, 30,text);
+
+
+    //将矩形填充为白色
+    QPolygon polyGon;
+    polyGon<<QPoint(sliderWidth, 0);
+    polyGon<<QPoint(sliderWidth, sliderHigh);
+    polyGon<<QPoint(0, sliderHigh);
+    polyGon<<QPoint(0, 0);
+    painter.setBrush(Qt::white);
+    painter.drawConvexPolygon(polyGon);
+
+    //设置渐变
+    QLinearGradient linerGradient = QLinearGradient(0, 0, 0, sliderHigh);
+    linerGradient.setColorAt(0.0, Qt::cyan);
+    linerGradient.setColorAt(0.3, Qt::green);
+    linerGradient.setColorAt(0.7, Qt::yellow);
+    linerGradient.setColorAt(1.0, Qt::red);
+
+    QBrush brush(linerGradient);
+    painter.setBrush(brush);
+
+    painter.drawRect(0, 0, sliderWidth, sliderHigh * sliderValue);
+
+    painter.end();
+}
+
+void TrainInfoSelect::setSecondSliderValue(float value)
+{
+    secondSliderValue = value;
+}
+
+void TrainInfoSelect::setFirstSliderValue(float value)
+{
+    firstSliderValue = value;
+}
+
+bool TrainInfoSelect::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == ui->widget && event->type()==QEvent::Paint)
+    {
+        paintImage(ui->widget, firstSliderValue, "硬座上座率");
+    }
+    if(watched == ui->widgetSecond && event->type()==QEvent::Paint)
+    {
+        paintImage(ui->widgetSecond, secondSliderValue, "卧铺上座率");
+    }
+
+    return QWidget::eventFilter(watched,event);
 }

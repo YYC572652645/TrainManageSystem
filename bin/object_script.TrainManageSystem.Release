@@ -6,9 +6,11 @@ INPUT(
 ./release\traininfoselect.o
 ./release\userinfoinsert.o
 ./release\userinfoselect.o
+./release\messagedialog.o
 ./release\qrc_res.o
 ./release\moc_mainwindow.o
 ./release\moc_traininfoselect.o
 ./release\moc_userinfoinsert.o
 ./release\moc_userinfoselect.o
+./release\moc_messagedialog.o
 );

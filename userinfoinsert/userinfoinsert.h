@@ -6,6 +6,8 @@
 #include <QComboBox>
 #include <QDateEdit>
 #include <QPushButton>
+#include <QComboBox>
+#include <QSpinBox>
 
 namespace Ui {
 class userinfoinsert;
@@ -23,6 +25,8 @@ public:
 
 private slots:
     void insertData();
+    void seatMoneyChange(int value);
+    void seatNumberChange(int value);
 
 private:
     Ui::userinfoinsert *ui;
@@ -30,8 +34,9 @@ private:
     QLineEdit *lineEditIDCardNumber;    //身份证号
     QLineEdit *lineEditTrainNumber;     //车次
     QDateEdit *dateEditDateTime;        //时间
-    QLineEdit *lineEditSeatMoney;       //票价
-    QLineEdit *lineEditSeatNumber;      //票数
+    QComboBox *comboBoxSeatType;        //座位类型
+    QSpinBox  *spinBoxSeatMoney;        //票价
+    QSpinBox  *spinBoxSeatNumber;       //票数
     QLineEdit *lineEditTotalMoney;      //总价钱
 
     QPushButton * insertButton;         //录入信息

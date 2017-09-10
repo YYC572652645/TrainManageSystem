@@ -6,9 +6,11 @@ INPUT(
 ./debug\traininfoselect.o
 ./debug\userinfoinsert.o
 ./debug\userinfoselect.o
+./debug\messagedialog.o
 ./debug\qrc_res.o
 ./debug\moc_mainwindow.o
 ./debug\moc_traininfoselect.o
 ./debug\moc_userinfoinsert.o
 ./debug\moc_userinfoselect.o
+./debug\moc_messagedialog.o
 );

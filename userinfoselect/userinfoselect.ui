@@ -109,7 +109,7 @@ background-color:transparent;
        </column>
        <column>
         <property name="text">
-         <string>终点站</string>
+         <string>座位类型</string>
         </property>
        </column>
        <column>

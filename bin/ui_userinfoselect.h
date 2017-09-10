@@ -135,7 +135,7 @@ public:
         QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("userinfoselect", "\346\227\266\351\227\264", 0));
         QTableWidgetItem *___qtablewidgetitem3 = tableWidget->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QApplication::translate("userinfoselect", "\347\273\210\347\202\271\347\253\231", 0));
+        ___qtablewidgetitem3->setText(QApplication::translate("userinfoselect", "\345\272\247\344\275\215\347\261\273\345\236\213", 0));
         QTableWidgetItem *___qtablewidgetitem4 = tableWidget->horizontalHeaderItem(4);
         ___qtablewidgetitem4->setText(QApplication::translate("userinfoselect", "\347\245\250\344\273\267", 0));
         QTableWidgetItem *___qtablewidgetitem5 = tableWidget->horizontalHeaderItem(5);

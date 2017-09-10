@@ -23,6 +23,8 @@ typedef struct TrainInfo
     QString sleeperSeatNumber;
     QString hardSeadNumber;
     QString seatMoney;
+    QString totalSleeperSeatNumber;
+    QString totalHardSeadNumber;
 }TrainInfo;
 
 
@@ -32,6 +34,7 @@ typedef struct UserInfo
     QString idCardNumber;
     QString trainNumber;
     QString dataTime;
+    QString seatType;
     QString seatMoney;
     QString seatNumber;
     QString totalMoney;

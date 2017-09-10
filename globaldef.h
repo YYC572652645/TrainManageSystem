@@ -38,10 +38,13 @@
 namespace GLOBALDEF
 {
 const static int     ERROR        = -1;                           //数据库查询失败
-const static QString UPDATEICON   = ":/image/image/update.jpg";   //刷新图片
+const static QString SUCCESSIMAGE = ":/image/image/ok.png";       //成功图片
+const static QString FAILIMAGE    = ":/image/image/fail.png";     //失败图片
+const static QString UPDATEICON   = ":/image/image/update.jpg";   //更新图片
 const static QString REFRESHICON  = ":/image/image/refresh.png";  //刷新图片
 const static QString DELETEICON   = ":/image/image/critical.png"; //删除图片
 const static int     REFRESHTIME  = 3500;                         //刷新时间
+
 
 //列车信息表对应枚举
 enum TRAININFO
@@ -55,6 +58,8 @@ enum TRAININFO
     SLEEPERSEATNUMBER,
     HARDSEADNUMBER,
     SEATMONEY,
+    TOTALSLEEPERSEATNUMBER,
+    TOTALHARDSEADNUMBER,
     TRAININFOMAX,
 };
 
@@ -64,6 +69,7 @@ enum USERINFO
     IDCARDNUMBER,
     USERTRAINNUMBER,
     DATETIME,
+    SEATTYPE,
     USERSEATMONEY,
     SEATNUMBER,
     TOTALMONEY,
@@ -75,6 +81,7 @@ enum SELECTYPE
 {
     SELECTALL,
     SELECTLIKE,
+    SELECTWHERE,
 };
 
 }
