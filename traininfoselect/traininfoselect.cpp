@@ -22,8 +22,7 @@ TrainInfoSelect::TrainInfoSelect(QWidget *parent) :
     ui->widget->installEventFilter(this);      //注册监视对象
     ui->widgetSecond->installEventFilter(this);//注册监视对象
 
-    ui->widget->hide();
-    ui->widgetSecond->hide();
+    ui->groupBox->hide();
 }
 
 TrainInfoSelect::~TrainInfoSelect()
@@ -136,7 +135,7 @@ void TrainInfoSelect::dataSelect(int type)
 /**************************          删除数据      ***************************/
 void TrainInfoSelect::dataDelete()
 {
-    DATABASE->deleteTrainData(trainInfo.trainNumber);
+    DATABASE->deleteTrainData(trainInfo.trainNumber, trainInfo.startTime, trainInfo.endTime);
 
     dataSelect(GLOBALDEF::SELECTALL);
 }
@@ -203,8 +202,7 @@ void TrainInfoSelect::on_tableWidget_clicked(const QModelIndex &index)
                 this->setSecondSliderValue(persent);
             }
 
-            ui->widget->show();
-            ui->widgetSecond->show();
+            ui->groupBox->show();
             ui->widget->update();
             ui->widgetSecond->update();
         }

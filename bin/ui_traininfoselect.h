@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -28,16 +29,19 @@ QT_BEGIN_NAMESPACE
 class Ui_traininfoselect
 {
 public:
+    QVBoxLayout *verticalLayout_3;
     QVBoxLayout *verticalLayout_2;
-    QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLineEdit *lineEdit;
     QPushButton *pushButtonFind;
     QLabel *labelMovie;
     QPushButton *pushButtonRefresh;
     QSpacerItem *horizontalSpacer;
-    QHBoxLayout *horizontalLayout_2;
+    QHBoxLayout *horizontalLayout_3;
     QTableWidget *tableWidget;
+    QGroupBox *groupBox;
+    QVBoxLayout *verticalLayout;
+    QHBoxLayout *horizontalLayout_2;
     QWidget *widget;
     QWidget *widgetSecond;
 
@@ -46,10 +50,10 @@ public:
         if (traininfoselect->objectName().isEmpty())
             traininfoselect->setObjectName(QStringLiteral("traininfoselect"));
         traininfoselect->resize(876, 413);
-        verticalLayout_2 = new QVBoxLayout(traininfoselect);
+        verticalLayout_3 = new QVBoxLayout(traininfoselect);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         lineEdit = new QLineEdit(traininfoselect);
@@ -93,10 +97,10 @@ public:
         horizontalLayout->addItem(horizontalSpacer);
 
 
-        verticalLayout->addLayout(horizontalLayout);
+        verticalLayout_2->addLayout(horizontalLayout);
 
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         tableWidget = new QTableWidget(traininfoselect);
         if (tableWidget->columnCount() < 10)
             tableWidget->setColumnCount(10);
@@ -123,15 +127,21 @@ public:
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
         tableWidget->setStyleSheet(QStringLiteral(""));
 
-        horizontalLayout_2->addWidget(tableWidget);
+        horizontalLayout_3->addWidget(tableWidget);
 
-        widget = new QWidget(traininfoselect);
+        groupBox = new QGroupBox(traininfoselect);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        verticalLayout = new QVBoxLayout(groupBox);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        widget = new QWidget(groupBox);
         widget->setObjectName(QStringLiteral("widget"));
         widget->setMinimumSize(QSize(100, 0));
 
         horizontalLayout_2->addWidget(widget);
 
-        widgetSecond = new QWidget(traininfoselect);
+        widgetSecond = new QWidget(groupBox);
         widgetSecond->setObjectName(QStringLiteral("widgetSecond"));
         widgetSecond->setMinimumSize(QSize(100, 0));
 
@@ -141,7 +151,13 @@ public:
         verticalLayout->addLayout(horizontalLayout_2);
 
 
-        verticalLayout_2->addLayout(verticalLayout);
+        horizontalLayout_3->addWidget(groupBox);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_3);
+
+
+        verticalLayout_3->addLayout(verticalLayout_2);
 
 
         retranslateUi(traininfoselect);
@@ -175,6 +191,7 @@ public:
         ___qtablewidgetitem8->setText(QApplication::translate("traininfoselect", "\347\245\250\344\273\267", 0));
         QTableWidgetItem *___qtablewidgetitem9 = tableWidget->horizontalHeaderItem(9);
         ___qtablewidgetitem9->setText(QApplication::translate("traininfoselect", "\346\224\266\345\205\245\346\200\273\351\242\235", 0));
+        groupBox->setTitle(QString());
     } // retranslateUi
 
 };

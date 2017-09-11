@@ -93,8 +93,8 @@ public:
         verticalLayout->addLayout(horizontalLayout);
 
         tableWidget = new QTableWidget(userinfoselect);
-        if (tableWidget->columnCount() < 7)
-            tableWidget->setColumnCount(7);
+        if (tableWidget->columnCount() < 8)
+            tableWidget->setColumnCount(8);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -109,6 +109,8 @@ public:
         tableWidget->setHorizontalHeaderItem(5, __qtablewidgetitem5);
         QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
         tableWidget->setHorizontalHeaderItem(6, __qtablewidgetitem6);
+        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(7, __qtablewidgetitem7);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
 
         verticalLayout->addWidget(tableWidget);
@@ -131,17 +133,19 @@ public:
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("userinfoselect", "\350\272\253\344\273\275\350\257\201\345\217\267", 0));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QApplication::translate("userinfoselect", "\350\275\246\346\254\241", 0));
+        ___qtablewidgetitem1->setText(QApplication::translate("userinfoselect", "\345\247\223\345\220\215", 0));
         QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QApplication::translate("userinfoselect", "\346\227\266\351\227\264", 0));
+        ___qtablewidgetitem2->setText(QApplication::translate("userinfoselect", "\350\275\246\346\254\241", 0));
         QTableWidgetItem *___qtablewidgetitem3 = tableWidget->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QApplication::translate("userinfoselect", "\345\272\247\344\275\215\347\261\273\345\236\213", 0));
+        ___qtablewidgetitem3->setText(QApplication::translate("userinfoselect", "\346\227\266\351\227\264", 0));
         QTableWidgetItem *___qtablewidgetitem4 = tableWidget->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QApplication::translate("userinfoselect", "\347\245\250\344\273\267", 0));
+        ___qtablewidgetitem4->setText(QApplication::translate("userinfoselect", "\345\272\247\344\275\215\347\261\273\345\236\213", 0));
         QTableWidgetItem *___qtablewidgetitem5 = tableWidget->horizontalHeaderItem(5);
-        ___qtablewidgetitem5->setText(QApplication::translate("userinfoselect", "\347\245\250\346\225\260", 0));
+        ___qtablewidgetitem5->setText(QApplication::translate("userinfoselect", "\347\245\250\344\273\267", 0));
         QTableWidgetItem *___qtablewidgetitem6 = tableWidget->horizontalHeaderItem(6);
-        ___qtablewidgetitem6->setText(QApplication::translate("userinfoselect", "\346\200\273\344\273\267", 0));
+        ___qtablewidgetitem6->setText(QApplication::translate("userinfoselect", "\347\245\250\346\225\260", 0));
+        QTableWidgetItem *___qtablewidgetitem7 = tableWidget->horizontalHeaderItem(7);
+        ___qtablewidgetitem7->setText(QApplication::translate("userinfoselect", "\346\200\273\344\273\267", 0));
     } // retranslateUi
 
 };

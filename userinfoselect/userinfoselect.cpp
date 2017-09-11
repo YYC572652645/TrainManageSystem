@@ -99,6 +99,7 @@ void UserInfoSelect::dataSelect(int type)
     for(int i = 0; i < DATABASE->getUserData().size(); i ++)
     {
         ui->tableWidget->setItem(i, GLOBALDEF::IDCARDNUMBER,      DATA(DATABASE->getUserData().at(i).idCardNumber));
+        ui->tableWidget->setItem(i, GLOBALDEF::USERNAME,          DATA(DATABASE->getUserData().at(i).name));
         ui->tableWidget->setItem(i, GLOBALDEF::USERTRAINNUMBER,   DATA(DATABASE->getUserData().at(i).trainNumber));
         ui->tableWidget->setItem(i, GLOBALDEF::DATETIME,          DATA(DATABASE->getUserData().at(i).dataTime));
         ui->tableWidget->setItem(i, GLOBALDEF::SEATTYPE,          DATA(DATABASE->getUserData().at(i).seatType));
@@ -121,7 +122,7 @@ void UserInfoSelect::dataSelect(int type)
 /**************************          删除数据      ***************************/
 void UserInfoSelect::dataDelete()
 {
-    DATABASE->deleteUserData(userInfo.idCardNumber);
+    DATABASE->deleteUserData(userInfo.idCardNumber, userInfo.dataTime);
 
     dataSelect(GLOBALDEF::SELECTALL);
 }
@@ -152,6 +153,7 @@ void UserInfoSelect::on_tableWidget_clicked(const QModelIndex &index)
         switch(i)
         {
         case GLOBALDEF::IDCARDNUMBER:      userInfo.idCardNumber  = item->text(); break;
+        case GLOBALDEF::USERNAME:          userInfo.name          = item->text(); break;
         case GLOBALDEF::USERTRAINNUMBER:   userInfo.trainNumber   = item->text(); break;
         case GLOBALDEF::DATETIME:          userInfo.dataTime      = item->text(); break;
         case GLOBALDEF::USERSEATMONEY:     userInfo.seatMoney     = item->text(); break;

@@ -99,6 +99,11 @@ background-color:transparent;
        </column>
        <column>
         <property name="text">
+         <string>姓名</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
          <string>车次</string>
         </property>
        </column>

@@ -32,6 +32,7 @@ private:
     Ui::userinfoinsert *ui;
 
     QLineEdit *lineEditIDCardNumber;    //身份证号
+    QLineEdit *lineEditName;            //姓名
     QLineEdit *lineEditTrainNumber;     //车次
     QDateEdit *dateEditDateTime;        //时间
     QComboBox *comboBoxSeatType;        //座位类型

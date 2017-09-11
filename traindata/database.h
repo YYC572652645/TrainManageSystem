@@ -32,6 +32,7 @@ typedef struct TrainInfo
 typedef struct UserInfo
 {
     QString idCardNumber;
+    QString name;
     QString trainNumber;
     QString dataTime;
     QString seatType;
@@ -72,7 +73,7 @@ public:
 
 
     /************删除列车数据*************/
-    bool deleteTrainData(QString trainNumber);
+    bool deleteTrainData(QString trainNumber, QString startTime, QString endTime);
 
 
     /************插入用户数据*************/
@@ -88,7 +89,7 @@ public:
 
 
     /************删除用户数据*************/
-    bool deleteUserData(QString idCardNumber);
+    bool deleteUserData(QString idCardNumber, QString dateTime);
 
 
     QList<TrainInfo> getTrainData() const;

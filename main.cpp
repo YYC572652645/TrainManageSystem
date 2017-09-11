@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    w.show();
+    w.showMaximized();
 
     LOADQSS(":/qss/qss/style.qss");
 

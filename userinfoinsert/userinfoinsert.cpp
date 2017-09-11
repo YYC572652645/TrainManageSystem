@@ -29,6 +29,16 @@ void UserInfoInsert::initControl()
     hboxLayoutIDCardNumber->setAlignment(widgetIDCardNumber,Qt::AlignCenter);
     widgetIDCardNumber->setLayout(hboxLayoutIDCardNumber);
 
+
+    /*************************          姓名           ***********************/
+    lineEditName = new QLineEdit(this);
+    lineEditName->setMinimumHeight(25);
+    QWidget *widgetName = new QWidget(this);
+    QHBoxLayout *hboxLayoutName = new QHBoxLayout(this);
+    hboxLayoutName->addWidget(lineEditName);
+    hboxLayoutName->setAlignment(widgetName,Qt::AlignCenter);
+    widgetName->setLayout(hboxLayoutName);
+
     /*************************          车次           ***********************/
     lineEditTrainNumber = new QLineEdit(this);
     lineEditTrainNumber->setMinimumHeight(25);
@@ -112,12 +122,13 @@ void UserInfoInsert::initControl()
 
     //添加控件
     ui->tableWidgetInsert->setCellWidget(0, 1, widgetIDCardNumber);
-    ui->tableWidgetInsert->setCellWidget(0, 3, widgetTrainNumber);
-    ui->tableWidgetInsert->setCellWidget(0, 5, widgetDateTime);
-    ui->tableWidgetInsert->setCellWidget(1, 1, widgetSeatType);
-    ui->tableWidgetInsert->setCellWidget(1, 3, widgetSeatMoney);
-    ui->tableWidgetInsert->setCellWidget(1, 5, widgetSeatNumber);
-    ui->tableWidgetInsert->setCellWidget(2, 1, widgetTotalMoney);
+    ui->tableWidgetInsert->setCellWidget(0, 3, widgetName);
+    ui->tableWidgetInsert->setCellWidget(0, 5, widgetTrainNumber);
+    ui->tableWidgetInsert->setCellWidget(1, 1, widgetDateTime);
+    ui->tableWidgetInsert->setCellWidget(1, 3, widgetSeatType);
+    ui->tableWidgetInsert->setCellWidget(1, 5, widgetSeatMoney);
+    ui->tableWidgetInsert->setCellWidget(2, 1, widgetSeatNumber);
+    ui->tableWidgetInsert->setCellWidget(2, 3, widgetTotalMoney);
     ui->tableWidgetInsert->setCellWidget(3, 5, widgetButton);
 
     //把表头上面去掉
@@ -145,29 +156,33 @@ void UserInfoInsert::initControl()
     textTrainNumber->setTextAlignment(Qt::AlignCenter);
     ui->tableWidgetInsert->setItem(0, 0, textTrainNumber);
 
+    QTableWidgetItem *textName = new QTableWidgetItem("姓名：");
+    textName->setTextAlignment(Qt::AlignCenter);
+    ui->tableWidgetInsert->setItem(0, 2, textName);
+
     QTableWidgetItem *textTrainType = new QTableWidgetItem("车次：");
     textTrainType->setTextAlignment(Qt::AlignCenter);
-    ui->tableWidgetInsert->setItem(0, 2, textTrainType);
+    ui->tableWidgetInsert->setItem(0, 4, textTrainType);
 
     QTableWidgetItem *textDateTime = new QTableWidgetItem("时间：");
     textDateTime->setTextAlignment(Qt::AlignCenter);
-    ui->tableWidgetInsert->setItem(0, 4, textDateTime);
+    ui->tableWidgetInsert->setItem(1, 0, textDateTime);
 
     QTableWidgetItem *textSeatType = new QTableWidgetItem("座位类型：");
     textSeatType->setTextAlignment(Qt::AlignCenter);
-    ui->tableWidgetInsert->setItem(1, 0, textSeatType);
+    ui->tableWidgetInsert->setItem(1, 2, textSeatType);
 
     QTableWidgetItem *textSeatMoney = new QTableWidgetItem("票价：");
     textSeatMoney->setTextAlignment(Qt::AlignCenter);
-    ui->tableWidgetInsert->setItem(1, 2, textSeatMoney);
+    ui->tableWidgetInsert->setItem(1, 4, textSeatMoney);
 
     QTableWidgetItem *textSeatNumber = new QTableWidgetItem("票数：");
     textSeatNumber->setTextAlignment(Qt::AlignCenter);
-    ui->tableWidgetInsert->setItem(1, 4, textSeatNumber);
+    ui->tableWidgetInsert->setItem(2, 0, textSeatNumber);
 
     QTableWidgetItem *textTotalMoney = new QTableWidgetItem("总价：");
     textTotalMoney->setTextAlignment(Qt::AlignCenter);
-    ui->tableWidgetInsert->setItem(2, 0, textTotalMoney);
+    ui->tableWidgetInsert->setItem(2, 2, textTotalMoney);
 
     connect(insertButton,SIGNAL(clicked()), this, SLOT(insertData()));
 
@@ -184,6 +199,7 @@ void UserInfoInsert::insertData()
     UserInfo userInfo;
 
     userInfo.idCardNumber  = lineEditIDCardNumber->text();     //身份证号
+    userInfo.name          = lineEditName->text();             //姓名
     userInfo.trainNumber   = lineEditTrainNumber->text();      //车次
     userInfo.dataTime      = dateEditDateTime->text();         //时间
     userInfo.seatType      = comboBoxSeatType->currentText();  //座位类型
