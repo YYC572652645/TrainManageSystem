@@ -109,7 +109,6 @@ int DataBase::selectTrainData(int type, QString data)
 
     if(!success)  return GLOBALDEF::ERROR;
 
-
     while(query.next())        //挨个遍历数据
     {
         if(type != GLOBALDEF::SELECTWHERE)
